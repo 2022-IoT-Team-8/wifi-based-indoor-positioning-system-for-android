@@ -1,10 +1,10 @@
 package com.iot.termproject;
 
 import android.annotation.SuppressLint;
-import android.view.View;
-import android.widget.Toast;
+import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
-import com.iot.termproject.admin.MainActivity;
 import com.iot.termproject.base.BaseActivity;
 import com.iot.termproject.databinding.ActivitySplashBinding;
 
@@ -17,6 +17,7 @@ import com.iot.termproject.databinding.ActivitySplashBinding;
  */
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
+    private static final int timeOut = 2800;
 
     // ViewBinding 설정
     @Override
@@ -28,25 +29,17 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
     // onCreate() 생명주기 이후
     @Override
     protected void initAfterBinding() {
+        // animation 추가
+        Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_splash);
+        binding.splashTitleTv.startAnimation(anim);
 
-        // 관리자 모드 버튼 클릭 시 해당 화면으로 전환된다.
-        binding.splashAdministratorBtn.setOnClickListener(new View.OnClickListener() {
-
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "관리자 모드", Toast.LENGTH_SHORT).show();
-                startNextActivity(com.iot.termproject.admin.MainActivity.class);
+            public void run() {
+                startNextActivity(MainActivity.class);
+                finish();
             }
-        });
-
-        // 사용자 모드 버튼 클릭 시 해당 화면으로 전환된다.
-        binding.splashUserBtn.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "사용자 모드", Toast.LENGTH_SHORT).show();
-                startNextActivity(com.iot.termproject.user.MainActivity.class);
-            }
-        });
+        }, timeOut);
     }
 }

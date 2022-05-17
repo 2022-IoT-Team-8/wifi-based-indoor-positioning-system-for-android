@@ -10,6 +10,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
 
 import com.iot.termproject.base.BaseActivity;
@@ -42,6 +43,12 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
     @SuppressLint("SetTextI18n")
     @Override
     protected void initAfterBinding() {
+
+        // ActionBar 수정
+        ActionBar bar = getSupportActionBar();
+        assert bar != null;
+        bar.setTitle("AP 추가하기");
+
         database = AppDatabase.Companion.getInstance(this);
 
         // 기존의 access point 정보가 있다면 받아와 편집 모드인지를 알려준다.
