@@ -10,8 +10,10 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 
@@ -59,6 +61,12 @@ public class SearchAccessPointActivity extends BaseActivity<ActivitySearchAccess
     // onCreate() 생명주기 이후
     @Override
     protected void initAfterBinding() {
+
+        // ActionBar 수정
+        ActionBar bar = getSupportActionBar();
+        assert bar != null;
+        bar.setTitle("Search Wi-Fi");
+
         // RoomDB
         database = AppDatabase.Companion.getInstance(this);
 
@@ -159,6 +167,14 @@ public class SearchAccessPointActivity extends BaseActivity<ActivitySearchAccess
     // Wi-Fi scan thread
     public void refresh() {
         Log.d(TAG, "refresh");
+
+        // for test
+        if (wifiManager.startScan()) {
+            Toast.makeText(this, "Scanning Wi-Fi ...", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Failed to Scanning Wi-Fi ...", Toast.LENGTH_SHORT).show();
+        }
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

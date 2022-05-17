@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.iot.termproject"
-        minSdk 16
+        minSdk 21
         targetSdk 26
         versionCode 1
         versionName "1.0"

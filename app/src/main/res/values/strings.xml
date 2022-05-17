@@ -2,5 +2,14 @@
     <string name="app_name">Wi-Fi based Indoor Positioning System for Android</string>
 
     <string name="administrator">Administrator</string>
+    <string name="admin">Admin</string>
     <string name="user">User</string>
+
+    <string name="splash_title">Wi-Fi\nIndoor\nPositioning</string>
+    <string name="choose_mode">Choose Mode</string>
+    <string name="where_am_i">Where am I?</string>
+    <string name="room_number">000호</string>
+    <string name="check">check</string>
+    <string name="floor">Floor</string>
+    <string name="room">Room</string>
 </resources>

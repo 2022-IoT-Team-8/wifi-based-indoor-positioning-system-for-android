@@ -19,7 +19,9 @@
             android:id="@+id/add_room_point_ap_save_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:backgroundTint="@color/purple_200"
+            android:text="Save"
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/add_room_point_ap_name_et"
@@ -71,7 +73,7 @@
                 android:layout_weight="1"
                 android:lines="1"
                 android:text="Name"
-                android:textColor="@color/black"
+                android:textColor="@color/purple_200"
                 android:textStyle="bold" />
 
             <TextView
@@ -82,7 +84,7 @@
                 android:layout_weight="1"
                 android:lines="1"
                 android:text="Mac"
-                android:textColor="@color/black"
+                android:textColor="@color/purple_200"
                 android:textStyle="bold" />
 
             <TextView
@@ -93,7 +95,7 @@
                 android:lines="1"
                 android:text="RSSI"
                 android:textAlignment="center"
-                android:textColor="@color/black"
+                android:textColor="@color/purple_200"
                 android:textStyle="bold" />
 
         </LinearLayout>

@@ -25,6 +25,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MainActivity" />
+
         <!-- admin -->
         <activity android:name=".admin.MainActivity" />
         <activity android:name=".admin.AccessPointActivity" />
@@ -32,6 +34,7 @@
         <activity android:name=".admin.SearchAccessPointActivity" />
 
         <!-- user -->
+        <activity android:name=".user.LocationActivity" />
         <activity android:name=".user.LocateMeActivity" />
         <activity android:name=".user.MainActivity" />
 
