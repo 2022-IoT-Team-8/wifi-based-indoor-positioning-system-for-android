@@ -4,7 +4,8 @@ plugins {
     id 'kotlin-kapt'
 }
 
-//apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 //apply plugin: 'realm-android'
 
 android {
@@ -50,6 +51,8 @@ android {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:30.0.2')
+    implementation 'com.google.firebase:firebase-analytics'
 
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
