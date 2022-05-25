@@ -10,7 +10,6 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdk 32
-    buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId "com.iot.termproject"
