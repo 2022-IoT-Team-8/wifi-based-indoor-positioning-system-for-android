@@ -7,15 +7,16 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.iot.termproject.adapter.MainAccessPointListRVAdapter;
-import com.iot.termproject.adapter.MainRoomPointListRVAdapter;
+import com.iot.termproject.adapter.MainReferencePointListRVAdapter;
 import com.iot.termproject.base.BaseActivity;
 import com.iot.termproject.data.AppDatabase;
 import com.iot.termproject.data.entity.AccessPoint;
-import com.iot.termproject.data.entity.RoomPoint;
+import com.iot.termproject.data.entity.ReferencePoint;
 import com.iot.termproject.databinding.ActivityAdminMainBinding;
 import com.iot.termproject.user.LocateMeActivity;
 
@@ -26,22 +27,24 @@ import java.util.ArrayList;
  * Main 화면
  *
  * @see MainAccessPointListRVAdapter Access point들을 보여주는 RecyclerView adapter
- * @see MainRoomPointListRVAdapter Room point들을 보여주는 RecyclerView adapter
- * TODO: RecyclerView adapter click listener
+ * @see MainReferencePointListRVAdapter Room point들을 보여주는 RecyclerView adapter
  */
 public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
     private static final String TAG = "ACT/ADMIN-MAIN";
 
-    // database
-    AppDatabase database;
-
-    // data list from database
+    // Room
+    AppDatabase mRoom;
     ArrayList<AccessPoint> accessPoints = new ArrayList<>();
-    ArrayList<RoomPoint> roomPoints = new ArrayList<>();
+    ArrayList<ReferencePoint> referencePoints = new ArrayList<>();
 
-    // RecyclerView adapter
+    // RecyclerView
     private MainAccessPointListRVAdapter apRVAdapter;
-    private MainRoomPointListRVAdapter rpRVAdapter;
+    private MainReferencePointListRVAdapter rpRVAdapter;
+
+    // Firebase
+    private FirebaseDatabase mDatabase;
+    private DatabaseReference mAPReference;
+    private DatabaseReference mRPReference;
 
     // ViewBinding 설정
     @Override
@@ -53,11 +56,13 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
     // onCreate() 생명주기 이후
     @Override
     protected void initAfterBinding() {
-        // database 초기화
-        database = AppDatabase.Companion.getInstance(this);
-        assert database != null;
-        accessPoints = (ArrayList<AccessPoint>) database.accessPointDao().getAll();
-        roomPoints = (ArrayList<RoomPoint>) database.roomPointDao().getAll();
+        mRoom = AppDatabase.Companion.getInstance(this);
+        mDatabase = FirebaseDatabase.getInstance();
+        mAPReference = mDatabase.getReference("aps");
+        mRPReference = mDatabase.getReference("rps");
+
+        accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
+        referencePoints = (ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll();
 
         initRecyclerView();
         initClickListener();
@@ -70,11 +75,11 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
 
         // onResume에서 한 번 더 데이터베이스에서 받아오는 작업을 수행해준다.
 
-        accessPoints = (ArrayList<AccessPoint>) database.accessPointDao().getAll();
-        roomPoints = (ArrayList<RoomPoint>) database.roomPointDao().getAll();
+        accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
+        referencePoints = (ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll();
 
         apRVAdapter.addData(accessPoints);
-        rpRVAdapter.addData(roomPoints);
+        rpRVAdapter.addData(referencePoints);
     }
 
     // RecyclerView 초기화
@@ -100,7 +105,7 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
         binding.mainApRecyclerView.setAdapter(apRVAdapter);
 
         // TODO: Room point (강의실) RecyclerView & click listener (데이터 삽입)
-        rpRVAdapter = new MainRoomPointListRVAdapter(this, new MainRoomPointListRVAdapter.MyItemClickListener() {
+        rpRVAdapter = new MainReferencePointListRVAdapter(this, new MainReferencePointListRVAdapter.MyItemClickListener() {
 
             @Override
             public void onItemLongClick() {
@@ -110,13 +115,13 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
             @Override
             public void onItemClick(View view, int position) {
                 // FixMe: 잘 돌아가는지 확인해보기
-                RoomPoint roomPoint = roomPoints.get(position);
-                Intent intent = new Intent(getApplicationContext(), RoomPointActivity.class);
-                intent.putExtra("room_point_name", roomPoint.getName());
+                ReferencePoint referencePoint = referencePoints.get(position);
+                Intent intent = new Intent(getApplicationContext(), ReferencePointActivity.class);
+                intent.putExtra("room_point_name", referencePoint.getName());
                 startActivity(intent);
             }
         });
-        rpRVAdapter.addData(roomPoints);
+        rpRVAdapter.addData(referencePoints);
         binding.mainRpRecyclerView.setAdapter(rpRVAdapter);
     }
 
@@ -144,25 +149,18 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
                     // 위치 정보 허용
                     requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 198);
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), RoomPointActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), ReferencePointActivity.class);
                     intent.putExtra("room_point_name", "");
                     startActivity(intent);
                 }
             }
         });
 
-        // 'Locate Me' 버튼 클릭 시 'LocateMeActivity'로 전환
-        binding.mainLocateMeBtn.setOnClickListener(new View.OnClickListener() {
+        // 'Set Data' 버튼 클릭 시 파이어베이스에 데이터 전송
+        binding.mainSetDataBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // 위치 정보 허용
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 197);
-                } else {
-                    startNextActivity(LocateMeActivity.class);
-                }
             }
         });
     }

@@ -8,14 +8,26 @@
     tools:context=".admin.MainActivity">
 
     <LinearLayout
-        android:id="@+id/main_btn_linear_layout"
+        android:id="@+id/main_ap_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/main_ap_linear_layout"
+        android:padding="0dp"
+        app:layout_constraintBottom_toTopOf="@id/main_ap_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Access Point"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/main_add_ap_btn"
@@ -26,58 +38,6 @@
             android:text="Add Access Point"
             android:textAllCaps="false"
             android:textColor="@color/white" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/main_add_rp_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/purple_200"
-            android:text="Add Room Point"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/main_ap_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:padding="0dp"
-        app:layout_constraintBottom_toTopOf="@id/main_ap_recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_btn_linear_layout"
-        app:layout_constraintVertical_chainStyle="packed">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Access Points"
-            android:textColor="@color/purple_200"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="X"
-            android:textAlignment="center"
-            android:textColor="@color/purple_200"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Y"
-            android:textAlignment="center"
-            android:textColor="@color/purple_200"
-            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -93,7 +53,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_ap_linear_layout"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:listitem="@layout/item_main" />
+        tools:listitem="@layout/item_main_ap" />
 
     <LinearLayout
         android:id="@+id/main_rp_linear_layout"
@@ -110,29 +70,21 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="Room Points"
-            android:textColor="@color/purple_200"
+            android:layout_weight="1"
+            android:text="Reference Point"
+            android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/main_add_rp_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="X"
-            android:textAlignment="center"
-            android:textColor="@color/purple_200"
-            android:textSize="18sp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Y"
-            android:textAlignment="center"
-            android:textColor="@color/purple_200"
-            android:textSize="18sp" />
+            android:backgroundTint="@color/purple_200"
+            android:text="Add Room Point"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
@@ -143,23 +95,44 @@
         android:layout_marginTop="20dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/main_locate_me_btn"
+        app:layout_constraintBottom_toTopOf="@id/main_bottom_btn_ll"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_rp_linear_layout"
         app:layout_constraintVertical_chainStyle="packed"
-        tools:listitem="@layout/item_main" />
+        tools:listitem="@layout/item_main_rp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/main_locate_me_btn"
+    <LinearLayout
+        android:id="@+id/main_bottom_btn_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Locate Me"
-        android:textAllCaps="false"
-        android:visibility="gone"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_rp_recycler_view" />
+        app:layout_constraintTop_toBottomOf="@id/main_rp_recycler_view">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/main_set_data_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple_200"
+            android:text="Set Data"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/main_get_data_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple_200"
+            android:text="Get Data"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

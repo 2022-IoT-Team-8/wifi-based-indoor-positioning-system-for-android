@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iot.termproject.data.entity.RoomPoint
-import com.iot.termproject.databinding.ItemMainBinding
+import com.iot.termproject.data.entity.ReferencePoint
+import com.iot.termproject.databinding.ItemMainRpBinding
 
 /**
  * Main에서 room point들을 보여준다.
  *
  * @see com.iot.termproject.admin.MainActivity 에서 보여진다.
  */
-class MainRoomPointListRVAdapter(
+class MainReferencePointListRVAdapter(
     private val mContext: Context,
     private val mItemClickListener: MyItemClickListener
-) : RecyclerView.Adapter<MainRoomPointListRVAdapter.ViewHolder>() {
-    private val roomPoints = ArrayList<RoomPoint>()
+) : RecyclerView.Adapter<MainReferencePointListRVAdapter.ViewHolder>() {
+    private val referencePoints = ArrayList<ReferencePoint>()
 
     // Click listener
     interface MyItemClickListener {
@@ -31,24 +31,25 @@ class MainRoomPointListRVAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding: ItemMainBinding = ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemMainRpBinding = ItemMainRpBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     // ViewHolder binding
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(roomPoints[position])
+        holder.bind(referencePoints[position])
     }
 
     // 데이터셋 크기를 알려준다.
-    override fun getItemCount(): Int = roomPoints.size
+    override fun getItemCount(): Int = referencePoints.size
 
     // ViewHolder
-    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(roomPoint: RoomPoint) {
-            binding.itemMainNameTv.text = roomPoint.name
-            binding.itemMainXTv.text = roomPoint.x.toString()
-            binding.itemMainYTv.text = roomPoint.y.toString()
+    inner class ViewHolder(private val binding: ItemMainRpBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(referencePoint: ReferencePoint) {
+            binding.itemMainRpNameTv.text = referencePoint.name
+            binding.itemMainRpFloorTv.text = referencePoint.floor.toString()
+            binding.itemMainRpLatitudeTv.text = referencePoint.latitude.toString()
+            binding.itemMainRpLongitudeTv.text = referencePoint.longitude.toString()
 
             itemView.setOnClickListener {
                 mItemClickListener.onItemClick(itemView, bindingAdapterPosition)
@@ -58,9 +59,9 @@ class MainRoomPointListRVAdapter(
 
     // 데이터셋 추가
     @SuppressLint("NotifyDataSetChanged")
-    fun addData(roomPoints: List<RoomPoint>) {
-        this.roomPoints.clear()
-        this.roomPoints.addAll(roomPoints as ArrayList)
+    fun addData(referencePoints: List<ReferencePoint>) {
+        this.referencePoints.clear()
+        this.referencePoints.addAll(referencePoints as ArrayList)
         notifyDataSetChanged()
     }
 }

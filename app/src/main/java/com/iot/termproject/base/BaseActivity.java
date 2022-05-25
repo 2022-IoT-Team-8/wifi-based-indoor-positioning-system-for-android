@@ -42,9 +42,4 @@ public abstract class BaseActivity<VB extends ViewBinding> extends AppCompatActi
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
-
-    public void startNextActivityForResult(Class<?> className, int requestCode) {
-        Intent intent = new Intent(this, className);
-        startActivityForResult(intent, requestCode);
-    }
 }

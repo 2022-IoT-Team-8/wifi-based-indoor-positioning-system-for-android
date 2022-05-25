@@ -10,7 +10,7 @@ import com.iot.termproject.databinding.ItemAccessPointListBinding
 /**
  * 'RoomPointActivity'에서 access point들을 보여준다.
  *
- * @see com.iot.termproject.admin.RoomPointActivity 에서 보여진다.
+ * @see com.iot.termproject.admin.ReferencePointActivity 에서 보여진다.
  */
 class AccessPointRVAdapter() : RecyclerView.Adapter<AccessPointRVAdapter.ViewHolder>() {
     private var accessPoints = ArrayList<AccessPoint>()

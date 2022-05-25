@@ -27,9 +27,9 @@ import com.iot.termproject.databinding.ActivityAccessPointBinding;
 public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding> {
     private static final String TAG = "ACT/AP";
 
-    private String accessPointSsid;
+    private String ssid;
     private boolean isEdit = false;
-    private AppDatabase database;
+    private AppDatabase mRoom;
     private AccessPoint accessPoint;
 
     // ViewBinding 설정
@@ -49,15 +49,14 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
         assert bar != null;
         bar.setTitle("AP 추가하기");
 
-        database = AppDatabase.Companion.getInstance(this);
+        mRoom = AppDatabase.Companion.getInstance(this);
 
         // 기존의 access point 정보가 있다면 받아와 편집 모드인지를 알려준다.
-        accessPointSsid = getIntent().getStringExtra("access_point_ssid");
-        if(accessPointSsid.equals("")) {
+        ssid = getIntent().getStringExtra("access_point_ssid");
+        if (ssid.equals("")) {
             // 만약 받아온 정보가 없을 경우 편집 모드가 아닌 새로 생성하는 것임을 알려준다.
             isEdit = false;
-        }
-        else {
+        } else {
             // 만약 받아온 정보가 있을 경우 편집 모드임을 알려준다.
             isEdit = true;
             binding.accessApCreateBtn.setText("Save");
@@ -65,7 +64,7 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
         Log.d(TAG, "initAfterBinding/isEdit: " + isEdit);
 
         // 편집 모드일 경우 그에 맞는 처리를 해준다.
-        if(isEdit) {
+        if (isEdit) {
             initEditMode();
         }
 
@@ -75,14 +74,11 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
     // 편집 모드인 경우 데이터베이스에서 해당 값을 가져와서 그대로 넣어준다.
     private void initEditMode() {
         // 데이터베이스에서 해당 access point ssid를 이용해 객체를 가져온다.
-        accessPoint = database.accessPointDao().getAccessPointById(accessPointSsid);
+        accessPoint = mRoom.accessPointDao().getAccessPointBySsid(ssid);
 
         // view setting
         binding.accessPointApSsidEt.setText(accessPoint.getSsid());
-        binding.accessPointApDescEt.setText(accessPoint.getDescription());
-        binding.accessApXEt.setText(String.valueOf(accessPoint.getX()));
-        binding.accessApYEt.setText(String.valueOf(accessPoint.getY()));
-        binding.accessApMacEt.setText(accessPoint.getMac_address());
+        binding.accessApMacEt.setText(accessPoint.getMacAddress());
     }
 
     // click listener 초기화
@@ -93,7 +89,7 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
 
             @Override
             public void onClick(View view) {
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 199);
                 } else {
@@ -116,22 +112,19 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
                 final String macAddress = binding.accessApMacEt.getText().toString().trim();
 
                 // 데이터베이스에 저장한다.
-                if(isEdit) {
+                if (isEdit) {
                     // 편집 모드인 경우
                     accessPoint.setSsid(ssid);
-                    accessPoint.setDescription(description);
-                    accessPoint.setX(Double.parseDouble(x));
-                    accessPoint.setY(Double.parseDouble(y));
-                    accessPoint.setMac_address(macAddress);
+                    accessPoint.setMacAddress(macAddress);
 
                     // 데이터베이스에 반영
-                    database.accessPointDao().update(accessPoint);
+                    mRoom.accessPointDao().update(accessPoint);
                 } else {
                     // 새로 생성하는 경우
-                    AccessPoint newAccessPoint = new AccessPoint(ssid, description, macAddress, macAddress, Double.parseDouble(x), Double.parseDouble(y), null);
+                    AccessPoint newAccessPoint = new AccessPoint(ssid, macAddress, null);
 
                     // 데이터베이스에 반영
-                    database.accessPointDao().insert(newAccessPoint);
+                    mRoom.accessPointDao().insert(newAccessPoint);
                 }
                 finish();
             }
@@ -142,7 +135,7 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == 199 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 199 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             // 요청한 권한이 허용되면 'SearchAccessPointActivity'로 넘어간다.
             Intent intent = new Intent(this, SearchAccessPointActivity.class);
             startActivityForResult(intent, 1212);
@@ -155,15 +148,10 @@ public class AccessPointActivity extends BaseActivity<ActivityAccessPointBinding
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1212 && resultCode == RESULT_OK) {
             AccessPoint accessPoint = (AccessPoint) data.getSerializableExtra("access_point");
-//            AccessPoint accessPoint = database.accessPointDao().getAccessPointById(accessPointId);
-            Log.d(TAG, "onActivityResult/accessPoint: " + accessPoint);
 
             // view setting
             binding.accessPointApSsidEt.setText(accessPoint.getSsid());
-            binding.accessPointApDescEt.setText(accessPoint.getDescription());
-            binding.accessApXEt.setText(String.valueOf(accessPoint.getX()));
-            binding.accessApYEt.setText(String.valueOf(accessPoint.getY()));
-            binding.accessApMacEt.setText(accessPoint.getMac_address());
+            binding.accessApMacEt.setText(accessPoint.getMacAddress());
         }
     }
 }

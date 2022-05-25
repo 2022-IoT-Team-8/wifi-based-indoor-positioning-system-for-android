@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iot.termproject.data.entity.AccessPoint
-import com.iot.termproject.databinding.ItemMainBinding
+import com.iot.termproject.databinding.ItemMainApBinding
 
 /**
  * Main 화면에서 access point들을 보여준다.
@@ -31,7 +31,7 @@ class MainAccessPointListRVAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding: ItemMainBinding = ItemMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemMainApBinding = ItemMainApBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -44,11 +44,9 @@ class MainAccessPointListRVAdapter(
     override fun getItemCount(): Int = accessPoints.size
 
     // ViewHolder
-    inner class ViewHolder(private val binding: ItemMainBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemMainApBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(accessPoint: AccessPoint) {
-            binding.itemMainNameTv.text = accessPoint.ssid
-            binding.itemMainXTv.text = accessPoint.x.toString()
-            binding.itemMainYTv.text = accessPoint.y.toString()
+            binding.itemMainApMacAddressTv.text = accessPoint.macAddress
 
             itemView.setOnClickListener {
                 mItemClickListener.onItemClick(itemView, bindingAdapterPosition)

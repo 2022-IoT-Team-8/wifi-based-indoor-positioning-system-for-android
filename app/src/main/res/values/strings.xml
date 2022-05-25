@@ -5,7 +5,7 @@
     <string name="admin">Admin</string>
     <string name="user">User</string>
 
-    <string name="splash_title">Wi-Fi\nIndoor\nPositioning</string>
+    <string name="splash_title">Wi-Fi\nIndoor Positioning</string>
     <string name="choose_mode">Choose Mode</string>
     <string name="where_am_i">Where am I?</string>
     <string name="room_number">000호</string>

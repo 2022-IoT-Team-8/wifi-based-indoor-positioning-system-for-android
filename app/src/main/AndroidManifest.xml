@@ -2,13 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.iot.termproject">
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" android:required="true" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" android:required="true" />
-    <uses-permission android:name="android.permission.INTERNET" android:required="true" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -25,21 +26,22 @@
             </intent-filter>
         </activity>
 
+        <!-- service -->
+        <service android:name=".core.WifiService" />
+
+        <!-- choose mode -->
         <activity android:name=".MainActivity" />
 
         <!-- admin -->
         <activity android:name=".admin.MainActivity" />
         <activity android:name=".admin.AccessPointActivity" />
-        <activity android:name=".admin.RoomPointActivity" />
+        <activity android:name=".admin.ReferencePointActivity" />
         <activity android:name=".admin.SearchAccessPointActivity" />
 
         <!-- user -->
         <activity android:name=".user.LocationActivity" />
         <activity android:name=".user.LocateMeActivity" />
         <activity android:name=".user.MainActivity" />
-
-        <!-- service -->
-        <service android:name=".core.WifiService" />
 
     </application>
 

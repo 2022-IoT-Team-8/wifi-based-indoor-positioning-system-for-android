@@ -18,7 +18,7 @@ import com.iot.termproject.adapter.AccessPointRVAdapter;
 import com.iot.termproject.base.BaseActivity;
 import com.iot.termproject.data.AppDatabase;
 import com.iot.termproject.data.entity.AccessPoint;
-import com.iot.termproject.data.entity.RoomPoint;
+import com.iot.termproject.data.entity.ReferencePoint;
 import com.iot.termproject.databinding.ActivityRoomPointBinding;
 
 import java.util.ArrayList;
@@ -35,11 +35,11 @@ import java.util.Objects;
  *
  * TODO: RecyclerView & 추가 설정 & 이해 더 해보기기
  */
-public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
+public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBinding> {
     private static final String TAG = "ACT/RP";
 
     private boolean isEdit = false;
-    private AppDatabase database;
+    private AppDatabase mRoom;
 
     // RecyclerView
     private AccessPointRVAdapter accessPointRVAdapter;
@@ -59,7 +59,7 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
     private final Handler handler = new Handler();
 
     // RoomPoint
-    private RoomPoint roomPoint;
+    private ReferencePoint referencePoint;
     private String roomPointName;
 
     // ViewBinding 설정
@@ -92,10 +92,10 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
 
             // 편집 모드일 경우
             // 데이터베이스로부터 해당 room point 객체를 불러온다.
-            roomPoint = database.roomPointDao().getRoomPointByName(roomPointName);
+            referencePoint = database.referencePointDao().getRoomPointByName(roomPointName);
 
             // room point 객체가 갖고 있는 access point들을 불러와 저장한다.
-            ArrayList<AccessPoint> accessPoints = (ArrayList<AccessPoint>) roomPoint.getAccessPointList();
+            ArrayList<AccessPoint> accessPoints = (ArrayList<AccessPoint>) referencePoint.getAccessPointList();
             Log.d(TAG, "initAfterBinding/accessPoints: " + accessPoints);
 
             // RecyclerView adapter 설정
@@ -106,9 +106,9 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
             binding.addRoomPointRecyclerView.setAdapter(accessPointRVAdapter);
 
             // 편집 모드에 알맞게 view setting
-            binding.addRoomPointApNameEt.setText(roomPoint.getName());
-            binding.addRoomApXEt.setText(String.valueOf(roomPoint.getX()));
-            binding.addRoomApYEt.setText(String.valueOf(roomPoint.getY()));
+            binding.addRoomPointApNameEt.setText(referencePoint.getName());
+            binding.addRoomApXEt.setText(String.valueOf(referencePoint.getLatitude()));
+            binding.addRoomApYEt.setText(String.valueOf(referencePoint.getLongitude()));
         } else {
             // 편집 모드가 아닐 경우
             // WifiManager 및 AcailableAPsReciever 객체를 생성한다.
@@ -124,7 +124,7 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
             for (AccessPoint accessPoint : accessPoints) {
                 // key: access point의 mac address
                 // value: 해당 access point 객체
-                macToAccessPointMap.put(accessPoint.getMac_address(), accessPoint);
+                macToAccessPointMap.put(accessPoint.getMacAddress(), accessPoint);
             }
 
             // TODO: 비어있거나 GPS 기능이 켜져 있지 않은 경우 알림을 주는 기능을 추가적으로 고려해보기
@@ -191,7 +191,7 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
             // 해당 ssid를 가진 access point 객체를 데이터베이스를 통해 받아온 뒤,
             // MeanRSS 값을 추가해준다.
             String ssid = Objects.requireNonNull(macToAccessPointMap.get(entry.getKey())).getSsid();
-            AccessPoint updatedAccessPoint = database.accessPointDao().getAccessPointById(ssid);
+            AccessPoint updatedAccessPoint = database.accessPointDao().getAccessPointBySsid(ssid);
             updatedAccessPoint.setMeanRss(mean);
             accessPoints.add(updatedAccessPoint);
         }
@@ -264,7 +264,8 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
 
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.
-                    database.roomPointDao().insert(new RoomPoint(name, null, doubleX, doubleY, locationId, accessPoints));
+                    // FixMe: floor & GPS 추가해야 한다.
+                    database.referencePointDao().insert(new ReferencePoint(name, 2, doubleX, doubleY, accessPoints));
                     Log.d(TAG, "initClickListener/onClick/accessPoints: " + accessPoints);
                 } else {
                     // 편집 모드인 경우 수정 및 업데이트만 해주면 된다.
@@ -282,15 +283,14 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
                     String locationId = doubleX + " " + doubleY;
 
                     // 데이터베이스에서 해당 Room point를 불러와서 업데이트 해준다.
-                    RoomPoint roomPoint = database.roomPointDao().getRoomPointByName(name);
-                    roomPoint.setName(name);
-                    roomPoint.setX(doubleX);
-                    roomPoint.setY(doubleY);
-                    roomPoint.setLocationId(locationId);
+                    ReferencePoint referencePoint = database.referencePointDao().getRoomPointByName(name);
+                    referencePoint.setName(name);
+                    referencePoint.setLatitude(doubleX);
+                    referencePoint.setLongitude(doubleY);
 
                     // 업데이트 해주는 부분
                     // 데이터베이스에 업데이트함으로써 MainActivity에서 보여지도록 해야 한다.
-                    database.roomPointDao().update(roomPoint);
+                    database.referencePointDao().update(referencePoint);
                 }
                 finish();
             }

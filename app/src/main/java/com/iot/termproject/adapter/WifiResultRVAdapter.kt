@@ -30,7 +30,8 @@ class WifiResultRVAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = ItemWifiResultListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemWifiResultListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -46,7 +47,8 @@ class WifiResultRVAdapter(
     override fun getItemCount(): Int = wifiResults.size
 
     // ViewHolder
-    inner class ViewHolder(private val binding: ItemWifiResultListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemWifiResultListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         @SuppressLint("SetTextI18n")
         fun bind(scanResult: ScanResult) {
             binding.itemWifiResultListBssidTv.text = "MAC: " + scanResult.BSSID

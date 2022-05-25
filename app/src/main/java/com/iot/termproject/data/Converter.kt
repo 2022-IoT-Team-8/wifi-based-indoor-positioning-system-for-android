@@ -9,7 +9,7 @@ class Converter {
 
     // List<AccessPoint> -> Json (AccessPoint) 변환
     @TypeConverter
-    fun listToJson(value: List<AccessPoint>?) = Gson().toJson(value)
+    fun listToJson(value: List<AccessPoint>?): String = Gson().toJson(value)
 
     // Json (AccessPoint) -> List<AccessPoint> 변환
     @TypeConverter

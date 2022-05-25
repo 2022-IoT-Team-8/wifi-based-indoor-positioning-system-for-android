@@ -7,7 +7,7 @@ import com.iot.termproject.data.LocationDistance;
 import com.iot.termproject.data.LocationWithNearbyPlaces;
 import com.iot.termproject.data.WifiDataNetwork;
 import com.iot.termproject.data.entity.AccessPoint;
-import com.iot.termproject.data.entity.RoomPoint;
+import com.iot.termproject.data.entity.ReferencePoint;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,8 +113,8 @@ public class Algorithm {
         // Construct a list with locations-distances pairs for currently
         // observed RSS values
         assert database != null;
-        for (RoomPoint roomPoint : database.roomPointDao().getAll()) {
-            rssValues = (ArrayList<AccessPoint>) roomPoint.getAccessPointList();
+        for (ReferencePoint referencePoint : database.roomPointDao().getAll()) {
+            rssValues = (ArrayList<AccessPoint>) referencePoint.getAccessPointList();
             assert rssValues != null;
             currentResult = calculateEuclideanDistance(rssValues, observedRSSValues);
 
@@ -122,7 +122,7 @@ public class Algorithm {
                 return null;
 
             locationDistanceResults.add(0,
-                    new LocationDistance(currentResult, roomPoint.getLocationId(), roomPoint.getName()));
+                    new LocationDistance(currentResult, referencePoint.getLocationId(), referencePoint.getName()));
         }
 
         // Sort locations-distances pairs based on minimum distances
@@ -169,20 +169,20 @@ public class Algorithm {
 
         // Find the location of user with the highest probability
         assert database != null;
-        for (RoomPoint roomPoint : database.roomPointDao().getAll()) {
-            rssValues = (ArrayList<AccessPoint>) roomPoint.getAccessPointList();
+        for (ReferencePoint referencePoint : database.roomPointDao().getAll()) {
+            rssValues = (ArrayList<AccessPoint>) referencePoint.getAccessPointList();
             currentResult = calculateProbability(rssValues, observedRssValues, sGreek);
 
             if (currentResult == Double.NEGATIVE_INFINITY)
                 return null;
             else if (currentResult > highestProbability) {
                 highestProbability = currentResult;
-                mLocation = roomPoint.getLocationId();
+                mLocation = referencePoint.getLocationId();
             }
 
             if (isWeighted)
                 locationDistanceResults.add(0,
-                        new LocationDistance(currentResult, roomPoint.getLocationId(), roomPoint.getName()));
+                        new LocationDistance(currentResult, referencePoint.getLocationId(), referencePoint.getName()));
         }
 
         if (isWeighted)

@@ -31,6 +31,7 @@ import java.util.List;
 /**
  * 'Select via Scan' 버튼 클릭 시 보여지는 화면
  * 주변 access point들의 정보를 읽어서 list 형태로 보여준다.
+ * 이미 추가된 Mac address를 가진 AP의 경우 리스트에 뜨지 않도록 추가 구현해야 한다.
  *
  * @see AccessPointActivity 로부터 넘어온다.
  * @see WifiResultRVAdapter 스캔된 와이파이들의 결과를 보여주는 RecyclerView adapter
@@ -39,7 +40,7 @@ public class SearchAccessPointActivity extends BaseActivity<ActivitySearchAccess
     private static final String TAG = "ACT/SEARCH-AP";
 
     // database
-    private AppDatabase database;
+    private AppDatabase mRoom;
 
     // wifi
     private WifiManager wifiManager;
@@ -68,7 +69,7 @@ public class SearchAccessPointActivity extends BaseActivity<ActivitySearchAccess
         bar.setTitle("Search Wi-Fi");
 
         // RoomDB
-        database = AppDatabase.Companion.getInstance(this);
+        mRoom = AppDatabase.Companion.getInstance(this);
 
         // WifiManager로부터 객체를 받아와 저장한다.
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
@@ -107,17 +108,7 @@ public class SearchAccessPointActivity extends BaseActivity<ActivitySearchAccess
 
                 // 해당 access point 객체 생성
                 // FixMe: x, y 좌표를 어떻게 넣어줄 건지 고민해봐야 한다.
-                AccessPoint accessPoint = new AccessPoint(
-                        scanResult.SSID,
-                        scanResult.capabilities,
-                        scanResult.BSSID,
-                        scanResult.BSSID,
-                        0,
-                        0,
-                        null
-                );
-
-                Log.d(TAG, "initRecyclerView/onItemClick: accessPoint: " + accessPoint);
+                AccessPoint accessPoint = new AccessPoint(scanResult.SSID, scanResult.BSSID, null);
 
                 // Intent를 통해서 넘겨준다.
                 Intent intent = new Intent();
@@ -218,6 +209,17 @@ public class SearchAccessPointActivity extends BaseActivity<ActivitySearchAccess
             Log.d(TAG, "WifiReceiver/onReceiver/wifiResults: " + wifiResults);
 
             // RecyclerView adapter 설정
+
+            // 이미 등록된 mac address를 제거하고 보내준다.
+            List<AccessPoint> apList = mRoom.accessPointDao().getAll();
+            for(int i = 0; i < wifiResults.size(); i++) {
+                for(int j = 0; j < apList.size(); j++) {
+                    if(wifiResults.get(i).SSID.equals(apList.get(j).getSsid())) {
+
+                    }
+                }
+                if(wifiResults.get(i).SSID )
+            }
             wifiResultRVAdapter.addData((ArrayList<ScanResult>) wifiResults);
             wifiResultRVAdapter.notifyDataSetChanged();
         }
