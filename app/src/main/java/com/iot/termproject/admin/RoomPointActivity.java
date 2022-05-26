@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -130,6 +131,13 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
             binding.addRoomApXEt.setText(String.valueOf(roomPoint.getX()));
             binding.addRoomApYEt.setText(String.valueOf(roomPoint.getY()));
         } else {
+            //Todo: 층을 다루는 Spinner 셋팅
+            final String[] floor = {"floor", "2F", "4F", "5F"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, floor);
+            binding.addRoomFloor.setAdapter(adapter);
+
+            //Todo: 층에 따라 호실을 다루는 Spinner 셋팅
+
             // 편집 모드가 아닐 경우
             setMyPosition();
 
@@ -179,9 +187,7 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
     }
 
 
-    /*
-     * ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드
-     */
+    //ActivityCompat.requestPermissions를 사용한 퍼미션 요청의 결과를 리턴받는 메소드
     @Override
     public void onRequestPermissionsResult(int permsRequestCode,
                                            @NonNull String[] permissions,
@@ -451,6 +457,8 @@ public class RoomPointActivity extends BaseActivity<ActivityRoomPointBinding> {
                     else doubleY = Double.parseDouble(y);
 
                     String locationId = doubleX + " " + doubleY;
+
+                    //Todo: Spinner에서 몇 층인지 받아와서 저장
 
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.

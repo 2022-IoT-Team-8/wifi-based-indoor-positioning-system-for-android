@@ -23,15 +23,7 @@
             android:text="Save"
             android:textColor="@color/white" />
 
-        <EditText
-            android:id="@+id/add_room_point_ap_name_et"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:hint="Name"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLength="50" />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,15 +33,18 @@
 
             <Spinner
                 android:id="@+id/add_room_floor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <Spinner
-                android:id="@+id/add_room_number"
-                android:layout_width="0dp"
+            <EditText
+                android:id="@+id/add_room_point_ap_name_et"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:hint="Room number"
+                android:inputType="text"
+                android:maxLength="50"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 
