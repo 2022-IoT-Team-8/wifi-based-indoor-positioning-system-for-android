@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="floor_2_room_number">
+        <item>Room Number</item>
+        <item>201</item>
+        <item>202</item>
+        <item>203</item>
+        <item>204</item>
+        <item>205</item>
+        <item>206</item>
+        <item>207</item>
+        <item>208</item>
+        <item>209</item>
+        <item>210</item>
+        <item>211</item>
+        <item>212</item>
+        <item>213</item>
+        <item>214</item>
+        <item>215</item>
+        <item>216</item>
+        <item>217</item>
+        <item>218</item>
+        <item>219</item>
+        <item>220</item>
+        <item>221</item>
+        <item>222</item>
+        <item>223</item>
+        <item>224</item>
+        <item>225</item>
+        <item>226</item>
+        <item>227</item>
+        <item>228</item>
+        <item>229</item>
+        <item>230</item>
+    </string-array>
+
+    <string-array name="floor_4_room_number">
+        <item>401</item>
+        <item>402</item>
+        <item>403</item>
+        <item>404</item>
+        <item>405</item>
+        <item>406</item>
+        <item>407</item>
+        <item>408</item>
+        <item>409</item>
+        <item>410</item>
+        <item>411</item>
+        <item>412</item>
+        <item>413</item>
+        <item>414</item>
+        <item>415</item>
+        <item>416</item>
+        <item>417</item>
+        <item>418</item>
+        <item>419</item>
+        <item>420</item>
+        <item>421</item>
+        <item>422</item>
+        <item>423</item>
+        <item>424</item>
+        <item>425</item>
+        <item>426</item>
+        <item>427</item>
+        <item>428</item>
+        <item>429</item>
+        <item>430</item>
+        <item>431</item>
+        <item>432</item>
+        <item>433</item>
+        <item>434</item>
+    </string-array>
+
+    <string-array name="floor_5_room_number">
+        <item>501</item>
+        <item>502</item>
+        <item>503</item>
+        <item>504</item>
+        <item>505</item>
+        <item>506</item>
+        <item>507</item>
+        <item>508</item>
+        <item>509</item>
+        <item>510</item>
+        <item>511</item>
+        <item>512</item>
+        <item>513</item>
+        <item>514</item>
+        <item>515</item>
+        <item>516</item>
+        <item>517</item>
+        <item>518</item>
+        <item>519</item>
+        <item>520</item>
+        <item>521</item>
+        <item>522</item>
+        <item>523</item>
+        <item>524</item>
+        <item>525</item>
+        <item>526</item>
+        <item>527</item>
+        <item>528</item>
+        <item>529</item>
+        <item>530</item>
+        <item>531</item>
+        <item>532</item>
+    </string-array>
+
+</resources>

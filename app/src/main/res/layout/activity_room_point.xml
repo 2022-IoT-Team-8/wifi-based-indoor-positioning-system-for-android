@@ -39,12 +39,32 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
+            <Spinner
+                android:id="@+id/add_room_floor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Spinner
+                android:id="@+id/add_room_number"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
             <EditText
                 android:id="@+id/add_room_ap_x_et"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="x (decimal)"
+                android:hint="x (latitude)"
                 android:inputType="numberDecimal"
                 android:lines="1"
                 android:maxLength="10" />
@@ -54,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="y (decimal)"
+                android:hint="y (longitude)"
                 android:inputType="numberDecimal"
                 android:lines="1"
                 android:maxLength="10" />
