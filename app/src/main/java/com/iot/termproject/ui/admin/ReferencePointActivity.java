@@ -15,6 +15,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -121,6 +122,13 @@ public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBindin
             binding.addReferenceLatitudeEt.setText(String.valueOf(referencePoint.getLatitude()));
             binding.addReferenceLongitudeEt.setText(String.valueOf(referencePoint.getLongitude()));
         } else {
+            //Todo: 층을 다루는 Spinner 셋팅
+            final String[] floor = {"floor", "2F", "4F", "5F"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, floor);
+            binding.addRoomFloor.setAdapter(adapter);
+
+            //Todo: 층에 따라 호실을 다루는 Spinner 셋팅
+
             // 편집 모드가 아닐 경우
             setMyPosition();
 
@@ -418,6 +426,20 @@ public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBindin
                 if (!isEdit) {
                     // 편집 모드가 아닐 경우
                     // 즉, 새로 생성하는 경우
+
+//                    // x
+//                    double doubleX;
+//                    if (TextUtils.isEmpty(x)) doubleX = 0.0d;
+//                    else doubleX = Double.parseDouble(x);
+//
+//                    // y
+//                    double doubleY;
+//                    if (TextUtils.isEmpty(y)) doubleY = 0.0d;
+//                    else doubleY = Double.parseDouble(y);
+//
+//                    String locationId = doubleX + " " + doubleY;
+
+                    //Todo: Spinner에서 몇 층인지 받아와서 저장
 
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.
