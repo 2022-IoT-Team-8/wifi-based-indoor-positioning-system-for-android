@@ -7,10 +7,11 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "room_point")
 data class ReferencePoint(
     @SerializedName("name") var name: Int,
-    @SerializedName("floor") var floor: Int,
+    @SerializedName("floor") var floor: String,
     @SerializedName("latitude") var latitude: Double,       // 위도
     @SerializedName("longitude") var longitude: Double,     // 경도
-    @SerializedName("access_point_list") var accessPoints: List<AccessPoint>?
+    @SerializedName("access_point_list") var accessPoints: List<AccessPoint>?,
+    @SerializedName("isSent") var isSent: Boolean
 ) {
     @SerializedName("id")
     @PrimaryKey(autoGenerate = true)

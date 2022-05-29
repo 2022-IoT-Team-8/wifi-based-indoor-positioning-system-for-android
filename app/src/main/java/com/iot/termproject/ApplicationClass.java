@@ -1,6 +1,7 @@
 package com.iot.termproject;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.LocationManager;
 
 import com.iot.termproject.data.entity.LocationDistance;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class ApplicationClass {
-
     // RSSI value for no reception
     public static final Float NaN = -110.0f;
 
