@@ -18,12 +18,6 @@
             android:text="Refresh"
             android:textColor="@color/white" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="Please switch on the Wi-Fi and Location." />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_wifi_ap_recycler_view"
             android:layout_width="match_parent"

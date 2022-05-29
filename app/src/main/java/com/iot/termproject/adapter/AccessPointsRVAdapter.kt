@@ -10,9 +10,9 @@ import com.iot.termproject.databinding.ItemAccessPointListBinding
 /**
  * 'RoomPointActivity'에서 access point들을 보여준다.
  *
- * @see com.iot.termproject.admin.RoomPointActivity 에서 보여진다.
+ * @see com.iot.termproject.ui.admin.ReferencePointActivity 에서 보여진다.
  */
-class AccessPointRVAdapter() : RecyclerView.Adapter<AccessPointRVAdapter.ViewHolder>() {
+class AccessPointsRVAdapter() : RecyclerView.Adapter<AccessPointsRVAdapter.ViewHolder>() {
     private var accessPoints = ArrayList<AccessPoint>()
 
     // ViewHolder 생성
@@ -20,7 +20,8 @@ class AccessPointRVAdapter() : RecyclerView.Adapter<AccessPointRVAdapter.ViewHol
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding = ItemAccessPointListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ItemAccessPointListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -33,10 +34,10 @@ class AccessPointRVAdapter() : RecyclerView.Adapter<AccessPointRVAdapter.ViewHol
     override fun getItemCount(): Int = accessPoints.size
 
     // ViewHolder
-    inner class ViewHolder(private val binding: ItemAccessPointListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemAccessPointListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(accessPoint: AccessPoint) {
-            binding.itemAccessPointListBssidTv.text = accessPoint.bssid
-            binding.itemAccessPointListSsidTv.text = accessPoint.ssid
+            binding.itemAccessPointListMacAddressTv.text = accessPoint.macAddress
             binding.itemAccessPointListMeanRssTv.text = accessPoint.meanRss.toString()
         }
     }

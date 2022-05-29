@@ -17,6 +17,6 @@ interface AccessPointDao {
     @Query("SELECT * FROM access_point")
     fun getAll(): List<AccessPoint>
 
-    @Query("SELECT * FROM access_point WHERE ssid = :name")
-    fun getAccessPointById(name: String): AccessPoint
+    @Query("SELECT * FROM access_point WHERE macAddress = :macAddress")
+    fun getAccessPointByMacAddress(macAddress: String): AccessPoint
 }

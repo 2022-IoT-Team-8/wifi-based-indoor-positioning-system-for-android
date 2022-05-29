@@ -12,7 +12,7 @@
         android:gravity="center"
         android:text="@string/splash_title"
         android:textColor="@color/white"
-        android:textSize="50sp"
+        android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

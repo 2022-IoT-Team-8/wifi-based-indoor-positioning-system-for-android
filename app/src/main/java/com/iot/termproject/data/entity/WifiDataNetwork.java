@@ -1,4 +1,4 @@
-package com.iot.termproject.data;
+package com.iot.termproject.data.entity;
 
 import android.net.wifi.ScanResult;
 import android.os.Parcel;
@@ -7,11 +7,11 @@ import android.os.Parcelable;
 /**
  * 같은 SSID라도 access point 기기가 다를 수 있다.
  * 따라서 전환되었는지 알아볼 때 access point의 mac address를 이용한다.
- *
+ * <p>
  * 참조: http://egloos.zum.com/geneus/v/3519790
  */
 public class WifiDataNetwork implements Comparable<WifiDataNetwork>, Parcelable {
-    // BSSID: access point 주소
+    // BSSID: access point 주소 (mac address)
     private String bssid;
 
     // SSID: 네트워크 이름

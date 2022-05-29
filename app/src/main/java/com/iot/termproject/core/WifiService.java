@@ -11,7 +11,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.iot.termproject.data.WifiData;
+import com.iot.termproject.data.entity.WifiData;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -32,7 +32,8 @@ public class WifiService extends Service {
     private ScheduledExecutorService mScheduler;
 
     private long initialDelay = 0;
-    private long periodReader = 3000;
+    //    private long periodReader = 3000;
+    private long periodReader = 1000;
 
     // 주기적으로 사용 가능한 와이파이 네트워크를 스캔하는 스레드를 생성해준다.
     @Override
@@ -67,7 +68,7 @@ public class WifiService extends Service {
 
         @Override
         public void run() {
-            if(mWifiManager.isWifiEnabled()) {
+            if (mWifiManager.isWifiEnabled()) {
                 // get networks
                 // WifiManager로부터 스캔 리스트를 받아서 저장한 다음,
                 List<ScanResult> scanResults = mWifiManager.getScanResults();

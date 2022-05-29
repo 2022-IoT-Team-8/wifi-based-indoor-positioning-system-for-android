@@ -1,4 +1,4 @@
-package com.iot.termproject.data;
+package com.iot.termproject.data.entity;
 
 import java.util.ArrayList;
 

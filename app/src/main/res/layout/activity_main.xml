@@ -8,39 +8,45 @@
         android:id="@+id/main_title_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:text="@string/choose_mode"
-        android:textColor="@color/purple_200"
-        android:textSize="50sp"
+        android:textColor="@color/black"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/main_user_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/main_user_btn"
-        android:layout_width="200sp"
-        android:layout_height="70sp"
-        android:layout_marginTop="100sp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/purple_200"
         android:text="@string/user"
-        android:textSize="30sp"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@id/main_admin_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_title_tv" />
+        app:layout_constraintTop_toBottomOf="@id/main_title_tv"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
         android:id="@+id/main_admin_btn"
-        android:layout_width="200sp"
-        android:layout_height="70sp"
-        android:layout_marginTop="50sp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:backgroundTint="@color/purple_200"
         android:text="@string/admin"
-        android:textSize="30sp"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_user_btn" />
+        app:layout_constraintTop_toBottomOf="@id/main_user_btn"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

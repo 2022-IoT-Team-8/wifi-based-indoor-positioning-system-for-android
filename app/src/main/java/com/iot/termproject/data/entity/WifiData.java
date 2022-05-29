@@ -1,4 +1,4 @@
-package com.iot.termproject.data;
+package com.iot.termproject.data.entity;
 
 import android.net.wifi.ScanResult;
 import android.os.Parcel;
@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Wi-Fi data network들을 관리한다.
  * WifiManager로부터 받아온 값들을 저장하는 용도
- * <p>
+ *
  * 추가 설명:
  * 안드로이드는 프로세스 간 데이터를 전달할 때 바인더를 통해 Parcel이라는 객체로 전달한다.
  * 이때, Parcel은 추상화된 객체로 데이터와 객체를 갖고있는 container이다.
