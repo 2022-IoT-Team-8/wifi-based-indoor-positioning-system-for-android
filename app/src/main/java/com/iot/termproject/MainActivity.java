@@ -41,7 +41,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
 
             @Override
             public void onClick(View view) {
-                // 관리자 메인 화면으로 넘어간다.
                 startNextActivity(com.iot.termproject.ui.admin.MainActivity.class);
             }
         });

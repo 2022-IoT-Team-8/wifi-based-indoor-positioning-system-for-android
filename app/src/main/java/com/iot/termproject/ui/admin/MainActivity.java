@@ -173,23 +173,38 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
                 Log.d(TAG, "set data");
 
                 for (int i = 0; i < referencePoints.size(); i++) {
-                    String id = String.valueOf(referencePoints.get(i).getId());
 
-                    mRPReference.child(id).child("reference_point").setValue(referencePoints.get(i).getName());
-                    mRPReference.child(id).child("latitude").setValue(referencePoints.get(i).getLatitude());
-                    mRPReference.child(id).child("longitude").setValue(referencePoints.get(i).getLongitude());
-                    mRPReference.child(id).child("floor").setValue(referencePoints.get(i).getFloor());
+                    if (!referencePoints.get(i).isSent()) {
+                        DatabaseReference oneRPRefence = mRPReference.push();
 
-                    if (referencePoints.get(i).getAccessPoints() != null && Objects.requireNonNull(referencePoints.get(i).getAccessPoints()).size() > 0) {
-                        ArrayList<AccessPoint> aps = (ArrayList<AccessPoint>) referencePoints.get(i).getAccessPoints();
+                        int name = referencePoints.get(i).getName();
+                        double latitude = referencePoints.get(i).getLatitude();
+                        double longitude = referencePoints.get(i).getLongitude();
+                        int floor = Integer.parseInt(referencePoints.get(i).getFloor());
+                        Log.d(TAG, "floor: " + floor);
 
-                        if (aps != null && aps.size() > 0) {
-                            Log.d(TAG, "access points: " + aps);
+                        oneRPRefence.child("name").setValue(name);
+                        oneRPRefence.child("latitude").setValue(latitude);
+                        oneRPRefence.child("longitude").setValue(longitude);
+                        oneRPRefence.child("floor").setValue(floor);
 
-                            for (int j = 0; j < aps.size(); j++) {
-                                mRPReference.child(id).child(aps.get(j).getMacAddress()).setValue(aps.get(i).getMeanRss());
+                        if (referencePoints.get(i).getAccessPoints() != null && Objects.requireNonNull(referencePoints.get(i).getAccessPoints()).size() > 0) {
+                            ArrayList<AccessPoint> aps = (ArrayList<AccessPoint>) referencePoints.get(i).getAccessPoints();
+
+//                        ReferencePoint rp = new ReferencePoint(name, floor, latitude, longitude, aps);
+
+                            if (aps != null && aps.size() > 0) {
+                                Log.d(TAG, "access points: " + aps);
+
+                                for (int j = 0; j < aps.size(); j++) {
+//                                mRPReference.child(id).child(aps.get(j).getMacAddress()).setValue(aps.get(i).getMeanRss());
+                                    oneRPRefence.child(aps.get(j).getMacAddress()).setValue(aps.get(j).getMeanRss());
+                                }
                             }
                         }
+
+                        referencePoints.get(i).setSent(true);
+                        mRoom.referencePointDao().update(referencePoints.get(i));
                     }
                 }
             }

@@ -12,7 +12,6 @@ import android.location.LocationManager;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -30,7 +29,7 @@ import com.iot.termproject.base.BaseActivity;
 import com.iot.termproject.data.AppDatabase;
 import com.iot.termproject.data.entity.AccessPoint;
 import com.iot.termproject.data.entity.ReferencePoint;
-import com.iot.termproject.databinding.ActivityRoomPointBinding;
+import com.iot.termproject.databinding.ActivityReferencePointBinding;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ import java.util.Objects;
  * @see MainActivity 로부터 넘어온다.
  * @see AccessPointsRVAdapter
  */
-public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBinding> {
+public class ReferencePointActivity extends BaseActivity<ActivityReferencePointBinding> {
     private static final String TAG = "ACT/RP";
 
     private AppDatabase mRoom;
@@ -79,8 +78,8 @@ public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBindin
 
     // ViewBinding 설정
     @Override
-    protected ActivityRoomPointBinding setViewBinding() {
-        return ActivityRoomPointBinding.inflate(getLayoutInflater());
+    protected ActivityReferencePointBinding setViewBinding() {
+        return ActivityReferencePointBinding.inflate(getLayoutInflater());
     }
 
     // onCreate() 생명주기 이후 (ViewBinding 이후)
@@ -123,7 +122,7 @@ public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBindin
             binding.addReferenceLongitudeEt.setText(String.valueOf(referencePoint.getLongitude()));
         } else {
             //Todo: 층을 다루는 Spinner 셋팅
-            final String[] floor = {"floor", "2F", "4F", "5F"};
+            final String[] floor = {"2F", "4F", "5F"};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, floor);
             binding.addRoomFloor.setAdapter(adapter);
 
@@ -418,8 +417,11 @@ public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBindin
 
             @Override
             public void onClick(View view) {
+                Log.d(TAG, String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0)));
+
                 int name = Integer.parseInt(binding.addReferencePointApNameEt.getText().toString());
-                int floor = (int) binding.addReferencePointApNameEt.getText().charAt(0);
+                String floor = String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0));
+                Log.d(TAG, "floor: " + floor);
                 double latitude = Double.parseDouble(binding.addReferenceLatitudeEt.getText().toString());
                 double longitude = Double.parseDouble(binding.addReferenceLongitudeEt.getText().toString());
 
@@ -444,7 +446,7 @@ public class ReferencePointActivity extends BaseActivity<ActivityRoomPointBindin
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.
                     // FixMe: floor & GPS 추가해야 한다.
-                    mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints));
+                    mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints, false));
                     Log.d(TAG, "initClickListener/onClick/accessPoints: " + accessPoints);
                 } else {
                     // 편집 모드인 경우 수정 및 업데이트만 해주면 된다.
