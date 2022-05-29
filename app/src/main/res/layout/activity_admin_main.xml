@@ -5,55 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
-    tools:context=".admin.MainActivity">
+    tools:context=".ui.admin.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/main_ap_linear_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal"
-        android:padding="0dp"
-        app:layout_constraintBottom_toTopOf="@id/main_ap_recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed">
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/main_ap_linear_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:padding="0dp"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/main_ap_recycler_view"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_chainStyle="packed">-->
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Access Point"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+    <!--        <TextView-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:text="Access Point"-->
+    <!--            android:textColor="@color/black"-->
+    <!--            android:textSize="20sp"-->
+    <!--            android:textStyle="bold" />-->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/main_add_ap_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/purple_200"
-            android:text="Add Access Point"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
+    <!--        <androidx.appcompat.widget.AppCompatButton-->
+    <!--            android:id="@+id/main_add_ap_btn"-->
+    <!--            android:layout_width="0dp"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_weight="1"-->
+    <!--            android:backgroundTint="@color/purple_200"-->
+    <!--            android:text="Add Access Point"-->
+    <!--            android:textAllCaps="false"-->
+    <!--            android:textColor="@color/white" />-->
 
-    </LinearLayout>
+    <!--    </LinearLayout>-->
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_ap_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/main_rp_linear_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_ap_linear_layout"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:listitem="@layout/item_main_ap" />
+    <!--    <androidx.recyclerview.widget.RecyclerView-->
+    <!--        android:id="@+id/main_ap_recycler_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_marginTop="20dp"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/main_rp_linear_layout"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@id/main_ap_linear_layout"-->
+    <!--        app:layout_constraintVertical_chainStyle="packed"-->
+    <!--        tools:listitem="@layout/item_main_ap" />-->
 
     <LinearLayout
         android:id="@+id/main_rp_linear_layout"
@@ -64,7 +64,7 @@
         app:layout_constraintBottom_toTopOf="@id/main_rp_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/main_ap_recycler_view"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed">
 
         <TextView
@@ -94,6 +94,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical"
+        android:overScrollMode="never"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@id/main_bottom_btn_ll"
         app:layout_constraintEnd_toEndOf="parent"

@@ -13,17 +13,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/item_access_point_list_bssid_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:lines="1"
-            android:text="Name"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:id="@+id/item_access_point_list_bssid_tv"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:lines="1"-->
+<!--            android:text="Name"-->
+<!--            android:textStyle="bold" />-->
 
         <TextView
-            android:id="@+id/item_access_point_list_ssid_tv"
+            android:id="@+id/item_access_point_list_mac_address_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"

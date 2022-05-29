@@ -17,6 +17,9 @@ interface ReferencePointDao {
     @Query("SELECT * FROM room_point")
     fun getAll(): List<ReferencePoint>
 
-    @Query("SELECT * FROM room_point WHERE name = :name")
-    fun getRoomPointByName(name: String): ReferencePoint
+    @Query("SELECT * FROM room_point WHERE id = :id")
+    fun getRoomPointById(id: Int): ReferencePoint
+
+    @Query("DELETE FROM room_point WHERE id = :id")
+    fun deleteById(id: Int)
 }

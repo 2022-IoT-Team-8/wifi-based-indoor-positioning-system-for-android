@@ -26,7 +26,7 @@
         android:layout_marginBottom="20dp"
         android:text="@string/room_number"
         android:textAlignment="center"
-        android:textColor="@color/purple_200"
+        android:textColor="@color/black"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/main_check_btn"

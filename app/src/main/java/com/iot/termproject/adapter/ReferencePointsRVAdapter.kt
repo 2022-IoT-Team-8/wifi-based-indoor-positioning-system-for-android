@@ -12,18 +12,18 @@ import com.iot.termproject.databinding.ItemMainRpBinding
 /**
  * Main에서 room point들을 보여준다.
  *
- * @see com.iot.termproject.admin.MainActivity 에서 보여진다.
+ * @see com.iot.termproject.ui.admin.MainActivity 에서 보여진다.
  */
-class MainReferencePointListRVAdapter(
+class ReferencePointsRVAdapter(
     private val mContext: Context,
     private val mItemClickListener: MyItemClickListener
-) : RecyclerView.Adapter<MainReferencePointListRVAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ReferencePointsRVAdapter.ViewHolder>() {
     private val referencePoints = ArrayList<ReferencePoint>()
 
     // Click listener
     interface MyItemClickListener {
-        fun onItemClick(view: View, position: Int)       // 수정
-        fun onItemLongClick()   // 삭제
+        fun onItemClick(view: View, position: Int)
+        fun onItemLongClick(position: Int)
     }
 
     // ViewHolder 생성
@@ -31,7 +31,8 @@ class MainReferencePointListRVAdapter(
         parent: ViewGroup,
         viewType: Int
     ): ViewHolder {
-        val binding: ItemMainRpBinding = ItemMainRpBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding: ItemMainRpBinding =
+            ItemMainRpBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -44,15 +45,23 @@ class MainReferencePointListRVAdapter(
     override fun getItemCount(): Int = referencePoints.size
 
     // ViewHolder
-    inner class ViewHolder(private val binding: ItemMainRpBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemMainRpBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("SetTextI18n")
         fun bind(referencePoint: ReferencePoint) {
-            binding.itemMainRpNameTv.text = referencePoint.name
+            binding.itemMainRpNameTv.text = referencePoint.name.toString() + "호"
             binding.itemMainRpFloorTv.text = referencePoint.floor.toString()
             binding.itemMainRpLatitudeTv.text = referencePoint.latitude.toString()
             binding.itemMainRpLongitudeTv.text = referencePoint.longitude.toString()
 
             itemView.setOnClickListener {
                 mItemClickListener.onItemClick(itemView, bindingAdapterPosition)
+            }
+
+            itemView.setOnLongClickListener {
+                mItemClickListener.onItemLongClick(bindingAdapterPosition)
+
+                return@setOnLongClickListener false
             }
         }
     }

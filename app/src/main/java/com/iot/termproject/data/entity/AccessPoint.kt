@@ -7,9 +7,9 @@ import java.io.Serializable
 
 @Entity(tableName = "access_point")
 data class AccessPoint(
-    @SerializedName("ssid") var ssid: String,               // SSID or Name
     @SerializedName("mac_address") var macAddress: String,
-    @SerializedName("mean_rss") var meanRss: Double?
+    @SerializedName("rssi") var rssi: Double?,
+    @SerializedName("mean_rss") var meanRss: Double?    // FixMe: 필요 없다면 제거하기
 ) : Serializable {
     @SerializedName("id")
     @PrimaryKey(autoGenerate = true)

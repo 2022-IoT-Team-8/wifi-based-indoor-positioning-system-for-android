@@ -1,14 +1,16 @@
-package com.iot.termproject.data;
+package com.iot.termproject.data.entity;
 
 public class LocationDistance implements Comparable<LocationDistance> {
     private double distance;
-    private String location;
+    private double latitude;
+    private double longitude;
     private String name;
 
     // Constructor
-    public LocationDistance(double distance, String location, String name) {
+    public LocationDistance(double distance, double latitude, double longitude, String name) {
         this.distance = distance;
-        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.name = name;
     }
 
@@ -16,8 +18,12 @@ public class LocationDistance implements Comparable<LocationDistance> {
         return distance;
     }
 
-    public String getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public String getName() {
@@ -29,9 +35,9 @@ public class LocationDistance implements Comparable<LocationDistance> {
         double distance = locationDistance.getDistance();
 
         // 오름차순
-        if(this.distance == distance) {
+        if (this.distance == distance) {
             return 0;
-        } else if(this.distance > distance) {
+        } else if (this.distance > distance) {
             return 1;
         } else {
             return -1;

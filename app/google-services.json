@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "542631641333",
+    "firebase_url": "https://iot-term-project-team8-default-rtdb.firebaseio.com",
     "project_id": "iot-term-project-team8",
     "storage_bucket": "iot-term-project-team8.appspot.com"
   },

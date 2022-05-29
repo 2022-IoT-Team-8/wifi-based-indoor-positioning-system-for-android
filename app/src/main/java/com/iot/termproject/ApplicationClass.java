@@ -3,8 +3,8 @@ package com.iot.termproject;
 import android.content.Context;
 import android.location.LocationManager;
 
-import com.iot.termproject.data.LocationDistance;
-import com.iot.termproject.data.LocationWithNearbyPlaces;
+import com.iot.termproject.data.entity.LocationDistance;
+import com.iot.termproject.data.entity.LocationWithNearbyPlaces;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

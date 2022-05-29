@@ -9,11 +9,10 @@ import com.iot.termproject.base.BaseActivity;
 import com.iot.termproject.databinding.ActivitySplashBinding;
 
 /**
- * 초기 화면
- * 관리자 모드(admin), 사용자 모드(user)를 선택할 수 있다.
+ * 초기 화면 (애니메이션 효과와 함께 타이틀이 뜬다.)
  *
- * @see com.iot.termproject.admin.MainActivity 관리자 모드
- * @see com.iot.termproject.user.MainActivity 사용자 모드
+ * @see com.iot.termproject.ui.admin.MainActivity 관리자 모드
+ * @see com.iot.termproject.ui.user.MainActivity 사용자 모드
  */
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
@@ -25,8 +24,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
         return ActivitySplashBinding.inflate(getLayoutInflater());
     }
 
-    // ViewBinding 이후 처리할 작업들을 넣어준다.
-    // onCreate() 생명주기 이후
+    // onCreate() 생명주기 이후 (ViewBinding 이후)
     @Override
     protected void initAfterBinding() {
         // animation 추가
@@ -37,6 +35,7 @@ public class SplashActivity extends BaseActivity<ActivitySplashBinding> {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                // 모드를 선택할 수 있는 화면으로 넘어간다.
                 startNextActivity(MainActivity.class);
                 finish();
             }
