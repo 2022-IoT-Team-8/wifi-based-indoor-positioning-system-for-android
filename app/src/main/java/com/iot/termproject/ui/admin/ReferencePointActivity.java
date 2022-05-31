@@ -98,6 +98,10 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
         initRecyclerView();
 
         if (isEdit) {
+            final String[] floor = {"2F", "4F", "5F"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, floor);
+            binding.addRoomFloor.setAdapter(adapter);
+
             // 편집 모드일 경우
             // 데이터베이스로부터 해당 reference point 객체를 불러온다.
             assert mRoom != null;
@@ -362,7 +366,7 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
             List<Integer> levels = entry.getValue();
             Double mean = calcualteMean(levels);
 
-            // FixMe: 데이터베이스 관련해서 맞는기 검토해보기
+            // FixMe: 데이터베이스 관련해서 맞는지 검토해보기
             // 해당 ssid를 가진 access point 객체를 데이터베이스를 통해 받아온 뒤,
             // MeanRSS 값을 추가해준다.
             String macAddress = Objects.requireNonNull(macToAccessPointMap.get(entry.getKey())).getMacAddress();
@@ -417,7 +421,6 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
 
             @Override
             public void onClick(View view) {
-                Log.d(TAG, String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0)));
 
                 int name = Integer.parseInt(binding.addReferencePointApNameEt.getText().toString());
                 String floor = String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0));
@@ -429,24 +432,11 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
                     // 편집 모드가 아닐 경우
                     // 즉, 새로 생성하는 경우
 
-//                    // x
-//                    double doubleX;
-//                    if (TextUtils.isEmpty(x)) doubleX = 0.0d;
-//                    else doubleX = Double.parseDouble(x);
-//
-//                    // y
-//                    double doubleY;
-//                    if (TextUtils.isEmpty(y)) doubleY = 0.0d;
-//                    else doubleY = Double.parseDouble(y);
-//
-//                    String locationId = doubleX + " " + doubleY;
-
-                    //Todo: Spinner에서 몇 층인지 받아와서 저장
+                    Log.d(TAG, String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0)));
 
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.
-                    // FixMe: floor & GPS 추가해야 한다.
-                    mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints, false));
+                    mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints, false, null));
                     Log.d(TAG, "initClickListener/onClick/accessPoints: " + accessPoints);
                 } else {
                     // 편집 모드인 경우 수정 및 업데이트만 해주면 된다.
@@ -456,6 +446,8 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
                     referencePoint.setName(name);
                     referencePoint.setLatitude(latitude);
                     referencePoint.setLongitude(longitude);
+                    referencePoint.setFloor(floor);
+                    referencePoint.setSent(false);
 
                     // 업데이트 해주는 부분
                     // 데이터베이스에 업데이트함으로써 MainActivity에서 보여지도록 해야 한다.

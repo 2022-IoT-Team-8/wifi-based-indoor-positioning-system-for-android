@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -121,7 +122,15 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
 
             @Override
             public void onItemLongClick(int position) {
+                Toast.makeText(getApplicationContext(), "Delete Success", Toast.LENGTH_SHORT).show();
                 mRoom.referencePointDao().deleteById(referencePoints.get(position).getId());
+
+                if (referencePoints.get(position).isSent()) {
+                    mRPReference.child(Objects.requireNonNull(referencePoints.get(position).getKey())).removeValue();
+                }
+
+                referencePoints.clear();
+                referencePoints.addAll((ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll());
             }
 
             @Override
@@ -162,6 +171,7 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
             @Override
             public void onClick(View view) {
                 initData();
+                Toast.makeText(getApplicationContext(), "Get Success", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -171,11 +181,20 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "set data");
+                referencePoints.clear();
+                referencePoints.addAll((ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll());
 
                 for (int i = 0; i < referencePoints.size(); i++) {
 
                     if (!referencePoints.get(i).isSent()) {
-                        DatabaseReference oneRPRefence = mRPReference.push();
+                        DatabaseReference oneRPRef;
+
+                        if (referencePoints.get(i).getKey() != null) {
+                            oneRPRef = mRPReference.child(Objects.requireNonNull(referencePoints.get(i).getKey()));
+                        } else {
+                            oneRPRef = mRPReference.push();
+                            referencePoints.get(i).setKey(oneRPRef.getKey());
+                        }
 
                         int name = referencePoints.get(i).getName();
                         double latitude = referencePoints.get(i).getLatitude();
@@ -183,28 +202,26 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
                         int floor = Integer.parseInt(referencePoints.get(i).getFloor());
                         Log.d(TAG, "floor: " + floor);
 
-                        oneRPRefence.child("name").setValue(name);
-                        oneRPRefence.child("latitude").setValue(latitude);
-                        oneRPRefence.child("longitude").setValue(longitude);
-                        oneRPRefence.child("floor").setValue(floor);
+                        oneRPRef.child("name").setValue(name);
+                        oneRPRef.child("latitude").setValue(latitude);
+                        oneRPRef.child("longitude").setValue(longitude);
+                        oneRPRef.child("floor").setValue(floor);
 
                         if (referencePoints.get(i).getAccessPoints() != null && Objects.requireNonNull(referencePoints.get(i).getAccessPoints()).size() > 0) {
                             ArrayList<AccessPoint> aps = (ArrayList<AccessPoint>) referencePoints.get(i).getAccessPoints();
-
-//                        ReferencePoint rp = new ReferencePoint(name, floor, latitude, longitude, aps);
 
                             if (aps != null && aps.size() > 0) {
                                 Log.d(TAG, "access points: " + aps);
 
                                 for (int j = 0; j < aps.size(); j++) {
-//                                mRPReference.child(id).child(aps.get(j).getMacAddress()).setValue(aps.get(i).getMeanRss());
-                                    oneRPRefence.child(aps.get(j).getMacAddress()).setValue(aps.get(j).getMeanRss());
+                                    oneRPRef.child(aps.get(j).getMacAddress()).setValue(aps.get(j).getMeanRss());
                                 }
                             }
                         }
 
                         referencePoints.get(i).setSent(true);
                         mRoom.referencePointDao().update(referencePoints.get(i));
+                        Toast.makeText(getApplicationContext(), "Push Success", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

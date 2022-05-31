@@ -11,7 +11,8 @@ data class ReferencePoint(
     @SerializedName("latitude") var latitude: Double,       // 위도
     @SerializedName("longitude") var longitude: Double,     // 경도
     @SerializedName("access_point_list") var accessPoints: List<AccessPoint>?,
-    @SerializedName("isSent") var isSent: Boolean
+    @SerializedName("isSent") var isSent: Boolean,
+    @SerializedName("key") var key: String?
 ) {
     @SerializedName("id")
     @PrimaryKey(autoGenerate = true)
