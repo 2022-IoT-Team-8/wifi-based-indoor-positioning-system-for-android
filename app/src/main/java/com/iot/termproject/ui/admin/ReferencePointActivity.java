@@ -417,30 +417,35 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
 
             @Override
             public void onClick(View view) {
-                Log.d(TAG, String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0)));
-
-                int name = Integer.parseInt(binding.addReferencePointApNameEt.getText().toString());
-                String floor = String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0));
-                Log.d(TAG, "floor: " + floor);
-                double latitude = Double.parseDouble(binding.addReferenceLatitudeEt.getText().toString());
-                double longitude = Double.parseDouble(binding.addReferenceLongitudeEt.getText().toString());
-
                 if (!isEdit) {
                     // 편집 모드가 아닐 경우
                     // 즉, 새로 생성하는 경우
 
+                    Log.d(TAG, String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0)));
+
+                    int name = Integer.parseInt(binding.addReferencePointApNameEt.getText().toString());
+                    String floor = String.valueOf((binding.addRoomFloor.getSelectedItem().toString()).charAt(0));
+                    Log.d(TAG, "floor: " + floor);
+                    double latitude = Double.parseDouble(binding.addReferenceLatitudeEt.getText().toString());
+                    double longitude = Double.parseDouble(binding.addReferenceLongitudeEt.getText().toString());
+
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.
-                    mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints, false));
+                    mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints, false, null));
                     Log.d(TAG, "initClickListener/onClick/accessPoints: " + accessPoints);
                 } else {
                     // 편집 모드인 경우 수정 및 업데이트만 해주면 된다.
+
+                    int name = Integer.parseInt(binding.addReferencePointApNameEt.getText().toString());
+                    double latitude = Double.parseDouble(binding.addReferenceLatitudeEt.getText().toString());
+                    double longitude = Double.parseDouble(binding.addReferenceLongitudeEt.getText().toString());
 
                     // 데이터베이스에서 해당 Room point를 불러와서 업데이트 해준다.
                     ReferencePoint referencePoint = mRoom.referencePointDao().getRoomPointById(referencePointId);
                     referencePoint.setName(name);
                     referencePoint.setLatitude(latitude);
                     referencePoint.setLongitude(longitude);
+                    referencePoint.setSent(false);
 
                     // 업데이트 해주는 부분
                     // 데이터베이스에 업데이트함으로써 MainActivity에서 보여지도록 해야 한다.
