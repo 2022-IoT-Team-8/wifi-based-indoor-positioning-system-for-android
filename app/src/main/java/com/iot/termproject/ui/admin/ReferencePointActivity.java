@@ -362,7 +362,7 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
             List<Integer> levels = entry.getValue();
             Double mean = calcualteMean(levels);
 
-            // FixMe: 데이터베이스 관련해서 맞는기 검토해보기
+            // FixMe: 데이터베이스 관련해서 맞는지 검토해보기
             // 해당 ssid를 가진 access point 객체를 데이터베이스를 통해 받아온 뒤,
             // MeanRSS 값을 추가해준다.
             String macAddress = Objects.requireNonNull(macToAccessPointMap.get(entry.getKey())).getMacAddress();
@@ -429,23 +429,8 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
                     // 편집 모드가 아닐 경우
                     // 즉, 새로 생성하는 경우
 
-//                    // x
-//                    double doubleX;
-//                    if (TextUtils.isEmpty(x)) doubleX = 0.0d;
-//                    else doubleX = Double.parseDouble(x);
-//
-//                    // y
-//                    double doubleY;
-//                    if (TextUtils.isEmpty(y)) doubleY = 0.0d;
-//                    else doubleY = Double.parseDouble(y);
-//
-//                    String locationId = doubleX + " " + doubleY;
-
-                    //Todo: Spinner에서 몇 층인지 받아와서 저장
-
                     // Insert
                     // 데이터베이스에 삽입해서 MainActivity에서 보여지도록 해야 한다.
-                    // FixMe: floor & GPS 추가해야 한다.
                     mRoom.referencePointDao().insert(new ReferencePoint(name, floor, latitude, longitude, accessPoints, false));
                     Log.d(TAG, "initClickListener/onClick/accessPoints: " + accessPoints);
                 } else {

@@ -115,22 +115,22 @@
         app:layout_constraintTop_toBottomOf="@id/main_rp_recycler_view">
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/main_set_data_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="@color/purple_200"
-            android:text="Set Data"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/main_get_data_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/purple_200"
-            android:text="Get Data"
+            android:text="Get AP"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/main_set_data_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/purple_200"
+            android:text="Push RP"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

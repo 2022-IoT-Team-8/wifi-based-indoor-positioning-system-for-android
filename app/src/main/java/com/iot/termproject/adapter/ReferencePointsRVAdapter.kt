@@ -60,7 +60,7 @@ class ReferencePointsRVAdapter(
 
             itemView.setOnLongClickListener {
                 mItemClickListener.onItemLongClick(bindingAdapterPosition)
-
+                removePoint(bindingAdapterPosition)
                 return@setOnLongClickListener false
             }
         }
@@ -72,5 +72,11 @@ class ReferencePointsRVAdapter(
         this.referencePoints.clear()
         this.referencePoints.addAll(referencePoints as ArrayList)
         notifyDataSetChanged()
+    }
+
+    private fun removePoint(position: Int) {
+        this.referencePoints.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, itemCount)
     }
 }

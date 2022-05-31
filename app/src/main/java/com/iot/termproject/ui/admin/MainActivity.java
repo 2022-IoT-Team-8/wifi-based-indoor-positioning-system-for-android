@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -121,7 +122,10 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
 
             @Override
             public void onItemLongClick(int position) {
+                Toast.makeText(getApplicationContext(), "Delete Success", Toast.LENGTH_SHORT).show();
                 mRoom.referencePointDao().deleteById(referencePoints.get(position).getId());
+                referencePoints.clear();
+                referencePoints.addAll((ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll());
             }
 
             @Override
@@ -162,6 +166,7 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
             @Override
             public void onClick(View view) {
                 initData();
+                Toast.makeText(getApplicationContext(), "Get Success", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -171,6 +176,8 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "set data");
+                referencePoints.clear();
+                referencePoints.addAll((ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll());
 
                 for (int i = 0; i < referencePoints.size(); i++) {
 
@@ -205,6 +212,7 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
 
                         referencePoints.get(i).setSent(true);
                         mRoom.referencePointDao().update(referencePoints.get(i));
+                        Toast.makeText(getApplicationContext(), "Push Success", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
