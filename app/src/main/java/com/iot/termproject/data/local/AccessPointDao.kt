@@ -19,4 +19,7 @@ interface AccessPointDao {
 
     @Query("SELECT * FROM access_point WHERE macAddress = :macAddress")
     fun getAccessPointByMacAddress(macAddress: String): AccessPoint
+
+    @Query("DELETE FROM access_point")
+    fun deleteAll()
 }

@@ -9,7 +9,7 @@ import java.io.Serializable
 data class AccessPoint(
     @SerializedName("mac_address") var macAddress: String,
     @SerializedName("rssi") var rssi: Double?,
-    @SerializedName("mean_rss") var meanRss: Double?    // FixMe: 필요 없다면 제거하기
+    @SerializedName("mean_rss") var meanRss: Double?
 ) : Serializable {
     @SerializedName("id")
     @PrimaryKey(autoGenerate = true)

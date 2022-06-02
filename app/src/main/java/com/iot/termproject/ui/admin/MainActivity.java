@@ -60,6 +60,7 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
 
         initData();
 
+        accessPoints.clear();
         accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
         referencePoints = (ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll();
 
@@ -71,6 +72,7 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
     protected void onResume() {
         super.onResume();
 
+        accessPoints.clear();
         accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
         referencePoints = (ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll();
 
@@ -89,21 +91,23 @@ public class MainActivity extends BaseActivity<ActivityAdminMainBinding> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Log.d(TAG, "onDataChange");
-                accessPoints.clear();
+                ArrayList<AccessPoint> tests = new ArrayList<>(mRoom.accessPointDao().getAll());
+                Log.d(TAG, "tests: " + tests);
 
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    String macAddress = dataSnapshot.getValue(String.class);
+                if (tests.size() == 0) {
+                    Log.d(TAG, "test.size() == 0");
+                    accessPoints.clear();
 
-                    assert macAddress != null;
-                    AccessPoint ap = new AccessPoint(macAddress, 0.0, 0.0);
-                    accessPoints.add(ap);
-                    mRoom.accessPointDao().insert(ap);  // 로컬에 추가
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        String macAddress = dataSnapshot.getValue(String.class);
 
-                    referencePoints = (ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll();
-                }
+                        assert macAddress != null;
+                        AccessPoint ap = new AccessPoint(macAddress, 0.0, 0.0);
+                        accessPoints.add(ap);
+                        mRoom.accessPointDao().insert(ap);  // 로컬에 추가
 
-                for (int i = 0; i < accessPoints.size(); i++) {
-                    mRoom.accessPointDao().insert(accessPoints.get(i));
+                        referencePoints = (ArrayList<ReferencePoint>) mRoom.referencePointDao().getAll();
+                    }
                 }
             }
 
