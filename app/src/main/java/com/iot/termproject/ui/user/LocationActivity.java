@@ -77,6 +77,7 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
                     // 사용자로부터 받아온 위치 정보가 없을 경우
                     binding.mainAnswerTv.setText("None");
                 } else {
+                    // 사용자로부터 받아온 위치 정보가 있을 경우
                     LocationDistance theNearestPoint = ApplicationClass.getTheNearestPoint(userLocation);
                     if (theNearestPoint != null) {
                         binding.mainAnswerTv.setText(theNearestPoint.getName() + "호");

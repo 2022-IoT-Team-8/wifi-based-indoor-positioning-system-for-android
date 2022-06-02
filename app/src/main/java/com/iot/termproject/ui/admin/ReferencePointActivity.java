@@ -125,12 +125,9 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
             binding.addReferenceLatitudeEt.setText(String.valueOf(referencePoint.getLatitude()));
             binding.addReferenceLongitudeEt.setText(String.valueOf(referencePoint.getLongitude()));
         } else {
-            //Todo: 층을 다루는 Spinner 셋팅
             final String[] floor = {"2F", "4F", "5F"};
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, floor);
             binding.addRoomFloor.setAdapter(adapter);
-
-            //Todo: 층에 따라 호실을 다루는 Spinner 셋팅
 
             // 편집 모드가 아닐 경우
             setMyPosition();
@@ -141,7 +138,6 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
             isEnable = wifi.isWifiEnabled();
 
             // 데이터베이스에 있는 모든 access point들을 불러온다.
-            // FixMe: 이렇게 하는 게 맞는지 검토하기
             assert mRoom != null;
             ArrayList<AccessPoint> accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
 
@@ -346,8 +342,6 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
             public void run() {
                 wifi.startScan();
 
-                // 3초마다 10개씩
-                // FixMe: 1초마다 10개씩으로 바꾸면 어떻게 될까?
                 if (readingCount < 10) refresh();
                 else caliberationCompleted();
             }
@@ -366,7 +360,6 @@ public class ReferencePointActivity extends BaseActivity<ActivityReferencePointB
             List<Integer> levels = entry.getValue();
             Double mean = calcualteMean(levels);
 
-            // FixMe: 데이터베이스 관련해서 맞는지 검토해보기
             // 해당 ssid를 가진 access point 객체를 데이터베이스를 통해 받아온 뒤,
             // MeanRSS 값을 추가해준다.
             String macAddress = Objects.requireNonNull(macToAccessPointMap.get(entry.getKey())).getMacAddress();
