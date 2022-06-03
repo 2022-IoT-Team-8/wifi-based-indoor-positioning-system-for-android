@@ -2,18 +2,13 @@ package com.iot.termproject.core;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.iot.termproject.data.AppDatabase;
-import com.iot.termproject.data.entity.LocationDistance;
 import com.iot.termproject.data.entity.LocationWithNearbyPlaces;
 import com.iot.termproject.data.entity.WifiDataNetwork;
 import com.iot.termproject.data.entity.AccessPoint;
-import com.iot.termproject.data.entity.ReferencePoint;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class Algorithm {
@@ -53,17 +48,31 @@ public class Algorithm {
                 ++notFoundCounter;
             }
 
-            // TODO: JSON 형식으로 시우 서버에 전송
-            // MAC은 따로 알아와야 할 듯합니다
-            // RSSI: "RSSI 값"
+            //Todo: 반복문을 도는 동안 MAC과 RSSI값을 JsonArray에 넣기
+            /**
+             * < 형식 >
+             *     {
+             *         "Results":
+             *                   [
+             *                   { "MAC": "MAC Address", "RSSI", "RSSI 값" },
+             *                   { "MAC": "MAC Address", "RSSI", "RSSI 값" },
+             *                   { "MAC": "MAC Address", "RSSI", "RSSI 값" },
+             *                   { "MAC": "MAC Address", "RSSI", "RSSI 값" },
+             *                   { "MAC": "MAC Address", "RSSI", "RSSI 값" }
+             *                   ]
+             *     }
+             */
+
             Log.d(TAG, observedRSSValues.get(i).toString() + "\n");
         }
+
+        // TODO: JSON data를 siwoosiwoo.com:5000 전송
 
         if (notFoundCounter == accessPoints.size()) {
             return null;
         }
 
-        // TODO: 시우 서버로부터 강의실 받아오는 부분 작성
+        // TODO: siwoosiwoo.com:5000로부터 강의실을 받아오기
         return null;
     }
 }
