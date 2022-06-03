@@ -23,11 +23,10 @@ public class Algorithm {
      * Location with nearby places
      *
      * @param scans    현재 scan된 access point들의 목록
-     * @param choice   선택한 알고리즘을 나타낸다.
      * @param mContext context
      * @return 사용자의 위치를 반환한다.
      */
-    public static LocationWithNearbyPlaces processingAlgorithms(List<WifiDataNetwork> scans, int choice, Context mContext) {
+    public static LocationWithNearbyPlaces processingAlgorithms(List<WifiDataNetwork> scans, Context mContext) {
         AppDatabase mRoom = AppDatabase.Companion.getInstance(mContext);
         assert mRoom != null;
         ArrayList<AccessPoint> accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
@@ -54,7 +53,8 @@ public class Algorithm {
                 ++notFoundCounter;
             }
 
-            // TODO: MAC은 따로 알아와야 할 듯합니다
+            // TODO: JSON 형식으로 시우 서버에 전송
+            // MAC은 따로 알아와야 할 듯합니다
             // RSSI: "RSSI 값"
             Log.d(TAG, observedRSSValues.get(i).toString() + "\n");
         }
@@ -63,7 +63,7 @@ public class Algorithm {
             return null;
         }
 
-        // TODO: input 받아오는 부분 작성
+        // TODO: 시우 서버로부터 강의실 받아오는 부분 작성
         return null;
     }
 }
