@@ -15,6 +15,7 @@ import java.util.Collections;
 public class ApplicationClass {
     // RSSI value for no reception
     public static final Float NaN = -110.0f;
+    public static final String SERVER_URL = "";
 
     public static boolean isLocationEnabled(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
