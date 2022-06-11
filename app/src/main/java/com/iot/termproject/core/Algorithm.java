@@ -2,11 +2,15 @@ package com.iot.termproject.core;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.iot.termproject.data.AppDatabase;
 import com.iot.termproject.data.entity.LocationWithNearbyPlaces;
 import com.iot.termproject.data.entity.WifiDataNetwork;
 import com.iot.termproject.data.entity.AccessPoint;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,8 @@ public class Algorithm {
         WifiDataNetwork wifiDataNetwork;
         int notFoundCounter = 0;
 
+        JSONObject jsonObject = new JSONObject();
+
         int i = 0, j = 0;
         for (i = 0; i < accessPoints.size(); i++) {
             for (j = 0; j < scans.size(); j++) {
@@ -48,9 +54,14 @@ public class Algorithm {
                 ++notFoundCounter;
             }
 
-            //Todo: 반복문을 도는 동안 MAC과 RSSI값을 JsonArray에 넣기
+            // 필요할까?
+            Log.d(TAG, observedRSSValues.get(i).toString() + "\n");
+        }
+
+        try{
+
             /**
-             * < 형식 >
+             * < Jsondata 형식 >
              *     {
              *         "Results":
              *                   [
@@ -63,11 +74,29 @@ public class Algorithm {
              *     }
              */
 
-            Log.d(TAG, observedRSSValues.get(i).toString() + "\n");
+            JSONArray jsonArray = new JSONArray();
+            for(i = 0; i < accessPoints.size(); i++){
+
+                //JsonObject 생성 - { "MAC": "MAC Address", "RSSI", "RSSI 값" }
+                JSONObject object = new JSONObject();
+                object.put("MAC", accessPoints.get(i).getMacAddress());
+                object.put("RSSI", accessPoints.get(i).getRssi());
+
+                // JsonArray에 JsonObject 넣기
+                jsonArray.put(object);
+            }
+
+            // Server에 전송할 json data 생성
+            jsonObject.put("Results", jsonArray);
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
+
 
         // TODO: JSON data를 siwoosiwoo.com:5000 전송
 
+        // 이거 필요한가?
         if (notFoundCounter == accessPoints.size()) {
             return null;
         }
