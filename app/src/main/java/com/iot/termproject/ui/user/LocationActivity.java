@@ -71,7 +71,7 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
             if (mWifiData != null) {
                 // 사용자의 위치 정보를 받아온다.
                 // 1: default
-                LocationWithNearbyPlaces userLocation = Algorithm.processingAlgorithms(mWifiData.getmNetworks(), 1, getApplicationContext());
+                LocationWithNearbyPlaces userLocation = Algorithm.processingAlgorithms(mWifiData.getmNetworks(), getApplicationContext());
 
                 if (userLocation == null) {
                     // 사용자로부터 받아온 위치 정보가 없을 경우
