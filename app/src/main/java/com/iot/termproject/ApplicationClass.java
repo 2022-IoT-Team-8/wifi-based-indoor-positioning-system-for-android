@@ -12,10 +12,15 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import retrofit2.Retrofit;
+
 public class ApplicationClass {
     // RSSI value for no reception
     public static final Float NaN = -110.0f;
-    public static final String SERVER_URL = "";
+
+    // server
+    public static String BASE_URL = "http://siwoosiwoo.com";
+    public static Retrofit retrofit = null;
 
     public static boolean isLocationEnabled(Context context) {
         LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);

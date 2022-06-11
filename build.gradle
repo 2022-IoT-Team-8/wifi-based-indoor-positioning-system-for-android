@@ -5,6 +5,8 @@ buildscript {
         viewpager_version = "1.0.0"
         recyclerview_version = "1.2.1"
         roomdb_version = "2.4.2"
+        retrofit_version = "2.9.0"
+        okHttp_version = "4.9.0"
     }
 
     repositories {
