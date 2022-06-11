@@ -4,10 +4,15 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.iot.termproject.ScanResultView;
 import com.iot.termproject.data.AppDatabase;
 import com.iot.termproject.data.entity.LocationWithNearbyPlaces;
 import com.iot.termproject.data.entity.WifiDataNetwork;
 import com.iot.termproject.data.entity.AccessPoint;
+import com.iot.termproject.data.remote.Result;
+import com.iot.termproject.data.remote.ScanResultService;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,8 +20,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Algorithm {
-    private static final String TAG = "ALGORITHM";
+public class Server {
+    private static final String TAG = "SERVER";
 
     /**
      * Location with nearby places
@@ -25,7 +30,7 @@ public class Algorithm {
      * @param mContext context
      * @return 사용자의 위치를 반환한다.
      */
-    public static LocationWithNearbyPlaces processingAlgorithms(List<WifiDataNetwork> scans, Context mContext) {
+    public static JSONObject processingAlgorithms(List<WifiDataNetwork> scans, Context mContext, Double latitude, Double longitude) {
         AppDatabase mRoom = AppDatabase.Companion.getInstance(mContext);
         assert mRoom != null;
         ArrayList<AccessPoint> accessPoints = (ArrayList<AccessPoint>) mRoom.accessPointDao().getAll();
@@ -35,6 +40,7 @@ public class Algorithm {
         int notFoundCounter = 0;
 
         JSONObject jsonObject = new JSONObject();
+        JSONArray jsonArray = new JSONArray();
 
         int i = 0, j = 0;
         for (i = 0; i < accessPoints.size(); i++) {
@@ -50,17 +56,17 @@ public class Algorithm {
 
             // 너무 작은 신호의 세기를 가지고 있는 경우, 최솟값을 부여한다.
             if (j == scans.size()) {
-                observedRSSValues.add(-110.0f);
+                observedRSSValues.add(110.0f);
                 ++notFoundCounter;
             }
 
             // 필요할까?
-            Log.d(TAG, observedRSSValues.get(i).toString() + "\n");
+//            Log.d(TAG, observedRSSValues.get(i).toString() + "\n");
         }
 
         try{
 
-            /**
+            /*
              * < Jsondata 형식 >
              *     {
              *         "Results":
@@ -74,34 +80,32 @@ public class Algorithm {
              *     }
              */
 
-            JSONArray jsonArray = new JSONArray();
             for(i = 0; i < accessPoints.size(); i++){
 
-                //JsonObject 생성 - { "MAC": "MAC Address", "RSSI", "RSSI 값" }
-                JSONObject object = new JSONObject();
-                object.put("MAC", accessPoints.get(i).getMacAddress());
-                object.put("RSSI", accessPoints.get(i).getRssi());
+                // JsonObject 생성 - { "MAC": "MAC Address", "RSSI", "RSSI 값" }
+//                JSONObject object = new JSONObject();
+                jsonObject.put(accessPoints.get(i).getMacAddress(), observedRSSValues.get(i));
+//                object.put("MAC", accessPoints.get(i).getMacAddress());
+//                object.put("RSSI", accessPoints.get(i).getRssi());
 
                 // JsonArray에 JsonObject 넣기
-                jsonArray.put(object);
+//                jsonArray.put(object);
             }
 
+            jsonObject.put("latitude", latitude);
+            jsonObject.put("longitude", longitude);
+
+            Log.d(TAG, "SERVER/object: " + jsonObject);
+            jsonArray.put(jsonObject);
+
             // Server에 전송할 json data 생성
+            Log.d(TAG, "SERVER/jsonArray: " + jsonArray);
             jsonObject.put("Results", jsonArray);
 
         }catch(Exception e){
             e.printStackTrace();
         }
 
-
-        // TODO: JSON data를 siwoosiwoo.com:5000 전송
-
-        // 이거 필요한가?
-        if (notFoundCounter == accessPoints.size()) {
-            return null;
-        }
-
-        // TODO: siwoosiwoo.com:5000로부터 강의실을 받아오기
-        return null;
+        return jsonObject;
     }
 }

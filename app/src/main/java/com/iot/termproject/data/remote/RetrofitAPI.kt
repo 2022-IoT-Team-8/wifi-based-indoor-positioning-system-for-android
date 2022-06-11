@@ -1,15 +1,15 @@
 package com.iot.termproject.data.remote
 
+import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.*
 
 interface RetrofitAPI {
-
-    // 스캔 결과 보내주기
-    @POST("/predict2")
+    @POST("/predict")
     fun sendScanResult(
-        @Body scanResult: ScanResult
-    ): Call<JsonObject>
-
+        @Body jsonObject: JSONObject
+    ): Call<Result>
 }

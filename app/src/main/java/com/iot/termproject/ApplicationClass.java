@@ -19,7 +19,7 @@ public class ApplicationClass {
     public static final Float NaN = -110.0f;
 
     // server
-    public static String BASE_URL = "http://siwoosiwoo.com";
+    public static String BASE_URL = "http://siwoosiwoo.com:5000";
     public static Retrofit retrofit = null;
 
     public static boolean isLocationEnabled(Context context) {

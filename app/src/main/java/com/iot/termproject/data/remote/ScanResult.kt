@@ -8,5 +8,5 @@ data class ScanResult(
 )
 
 data class Result(
-    @SerializedName("reference_point") val referencePoint: Int?
+    @SerializedName("predict") val referencePoint: Double
 )
