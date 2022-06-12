@@ -1,34 +1,61 @@
 package com.iot.termproject.ui.user;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.gson.JsonObject;
 import com.iot.termproject.ApplicationClass;
+import com.iot.termproject.ScanResultView;
 import com.iot.termproject.base.BaseActivity;
-import com.iot.termproject.core.Algorithm;
+import com.iot.termproject.core.Server;
 import com.iot.termproject.core.WifiService;
 import com.iot.termproject.data.entity.LocationDistance;
 import com.iot.termproject.data.entity.LocationWithNearbyPlaces;
 import com.iot.termproject.data.entity.WifiData;
+import com.iot.termproject.data.remote.Result;
+import com.iot.termproject.data.remote.ScanResultService;
 import com.iot.termproject.databinding.ActivityUserMainBinding;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * 사용자 모드 (user mode)
  * 내 위치를 추적해 어디에 있는지를 알려주는 화면
  */
 public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
+    private final static String TAG = "ACT/LOCATION";
 
-    // Wi-Fi
     private WifiData mWifiData;
     private MainActivityReceiver mReceiver = new MainActivityReceiver();
     private Intent wifiService;
 
-    // ViewBinding
+    private Double latitude = 0.0;
+    private Double longitude = 0.0;
+    private LocationManager manager;
+    private GPSListener gpsListener;
+
+    JsonObject jsonObject;
+    private ScanResultService scanResultService;
+
     @Override
     protected ActivityUserMainBinding setViewBinding() {
         return ActivityUserMainBinding.inflate(getLayoutInflater());
@@ -36,24 +63,32 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
 
     @Override
     protected void initAfterBinding() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+
         mWifiData = null;
+        scanResultService = new ScanResultService();
 
         // check 버튼 클릭 시
         binding.mainCheckBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                // set receiver
-                LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mReceiver, new IntentFilter("ANDROID_WIFI_SCANNER"));
-
-                // start Wi-Fi service
-                wifiService = new Intent(getApplicationContext(), WifiService.class);
-                startService(wifiService);
-
-                // recover ratained object
-                mWifiData = (WifiData) getLastNonConfigurationInstance();
+                startLocationService();
             }
         });
+    }
+
+    // location service 시작
+    private void startLocationService() {
+        manager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        try {
+            gpsListener = new GPSListener();
+            manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, gpsListener);
+
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -66,25 +101,44 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "MainActivityReceiver/onRecieve");
             mWifiData = (WifiData) intent.getParcelableExtra("WIFI_DATA");
 
             if (mWifiData != null) {
                 // 사용자의 위치 정보를 받아온다.
-                // 1: default
-                LocationWithNearbyPlaces userLocation = Algorithm.processingAlgorithms(mWifiData.getmNetworks(), getApplicationContext());
+                jsonObject = Server.processingData(mWifiData.getmNetworks(), getApplicationContext(), latitude, longitude);
 
-                if (userLocation == null) {
-                    // 사용자로부터 받아온 위치 정보가 없을 경우
-                    binding.mainAnswerTv.setText("None");
-                } else {
-                    // 사용자로부터 받아온 위치 정보가 있을 경우
-                    LocationDistance theNearestPoint = ApplicationClass.getTheNearestPoint(userLocation);
-                    if (theNearestPoint != null) {
-                        binding.mainAnswerTv.setText(theNearestPoint.getName() + "호");
-                    }
-                }
+                sendServer();
             }
         }
+    }
+
+    public void sendServer() {
+
+        class SendData extends AsyncTask<Void, Void, String> implements ScanResultView {
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                scanResultService.scanResult(this, jsonObject);
+                return null;
+            }
+
+            @Override
+            public void onScanResultSuccess(int referencePoint) {
+                Log.d(TAG, "result: " + referencePoint);
+                String finalResult = referencePoint + "호";
+                binding.mainAnswerTv.setText(finalResult);
+            }
+
+            @Override
+            public void onScanResultFailure() {
+                Log.d(TAG, "onScanResultFailure()");
+                Toast.makeText(getApplicationContext(), "응답 실패", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        SendData sendData = new SendData();
+        sendData.execute();
     }
 
     // 생명주기 - onDestroy()
@@ -93,5 +147,32 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         stopService(wifiService);
+    }
+
+    class GPSListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(@NonNull Location location) {
+            Log.d(TAG, "onLocationChanged/start");
+
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            // set receiver
+            LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(mReceiver, new IntentFilter("ANDROID_WIFI_SCANNER"));
+
+            // start Wi-Fi service
+            wifiService = new Intent(getApplicationContext(), WifiService.class);
+            startService(wifiService);
+
+            // recover ratained object
+            mWifiData = (WifiData) getLastNonConfigurationInstance();
+            Log.d(TAG, "onLocationChanged/mWifiData: " + mWifiData);
+
+            stopService(wifiService);
+            manager.removeUpdates(gpsListener);
+
+            Log.d(TAG, "onLocationChanged/finish");
+        }
     }
 }
