@@ -1,12 +1,7 @@
 package com.iot.termproject.data.remote
 
-import com.google.gson.JsonArray
 import com.google.gson.annotations.SerializedName
 
-data class ScanResult(
-    @SerializedName("scan_result") val scanResult: JsonArray
-)
-
 data class Result(
-    @SerializedName("predict") val referencePoint: Double
+    @SerializedName("predict") val referencePoint: Int
 )

@@ -8,8 +8,10 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface RetrofitAPI {
+
     @POST("/predict")
     fun sendScanResult(
-        @Body jsonObject: JSONObject
-    ): Call<Result>
+        @Body jsonObject: JsonObject
+    ): Call<JsonObject>
+
 }
