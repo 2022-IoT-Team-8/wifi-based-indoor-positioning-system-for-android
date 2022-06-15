@@ -126,7 +126,13 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
             @Override
             public void onScanResultSuccess(int referencePoint) {
                 Log.d(TAG, "result: " + referencePoint);
-                String finalResult = referencePoint + "호";
+                String finalResult ="";
+
+                if(referencePoint%100 ==99 || referencePoint%100 == 77 || referencePoint%100 == 55)
+                    finalResult = referencePoint/100 + "F elevator";
+                else
+                    finalResult = referencePoint + "호";
+
                 binding.mainAnswerTv.setText(finalResult);
             }
 
