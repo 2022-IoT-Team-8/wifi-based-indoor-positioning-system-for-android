@@ -128,17 +128,17 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
                 Log.d(TAG, "result: " + referencePoint);
                 String finalResult ="";
 
-                if(referencePoint%100 == 0)
+                if(referencePoint%100 == 0) // 로비
                     finalResult = referencePoint/100 + "층 로비";
-                else if(referencePoint%100 == 55)
+                else if(referencePoint%100 == 55) // 흡연실 근처 엘리베이터
                     finalResult = referencePoint/100 + "층 제 1 엘리베이터 앞";
-                else if(referencePoint%100 == 77)
+                else if(referencePoint%100 == 77) // 공학관 중간에 있는 엘리베이터
                     finalResult = referencePoint/100 + "층 제 2 엘리베이터 앞";
-                else if(referencePoint%100 == 99)
+                else if(referencePoint%100 == 99) // 운동장 근처 엘리베이터
                     finalResult = referencePoint/100 + "층 제 3 엘리베이터 앞";
-                else if(referencePoint == 543)
+                else if(referencePoint == 543) // 5층 다리
                     finalResult = "5층 구름다리";
-                else
+                else // 강의실
                     finalResult = referencePoint + "호";
 
                 binding.mainAnswerTv.setText(finalResult);
