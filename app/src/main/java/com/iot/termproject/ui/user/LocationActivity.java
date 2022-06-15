@@ -130,8 +130,12 @@ public class LocationActivity extends BaseActivity<ActivityUserMainBinding> {
 
                 if(referencePoint%100 == 0)
                     finalResult = referencePoint/100 + "층 로비";
-                else if(referencePoint%100 ==99 || referencePoint%100 == 77 || referencePoint%100 == 55)
-                    finalResult = referencePoint/100 + "층 엘리베이터 앞";
+                else if(referencePoint%100 == 55)
+                    finalResult = referencePoint/100 + "층 제 1 엘리베이터 앞";
+                else if(referencePoint%100 == 77)
+                    finalResult = referencePoint/100 + "층 제 2 엘리베이터 앞";
+                else if(referencePoint%100 == 99)
+                    finalResult = referencePoint/100 + "층 제 3 엘리베이터 앞";
                 else if(referencePoint == 543)
                     finalResult = "5층 구름다리";
                 else
